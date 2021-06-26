@@ -18,4 +18,4 @@ QR2AssistMe is uses [codeigniter](http://codeigniter.com) framework as a base an
 
 ## Licencing
 
-QR2AssistMe available under [GNU GPLv3] (https://www.gnu.org/licenses/gpl-3.0.html) licence.
+QR2AssistMe is released under [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.html) licence.

@@ -2,7 +2,7 @@
 
 ## What is it?
 
-QR2AssistMe is a open source web system to control  equipments or objects for technical services companies using QR Codes help tracking them. 
+QR2AssistMe is an open source web system to control  equipments or objects for technical services companies using QR Codes help tracking them. 
 
 
 QR2AssistMe is uses [codeigniter](http://codeigniter.com) framework as a base and additionally consume other key libraries and components described bellow.

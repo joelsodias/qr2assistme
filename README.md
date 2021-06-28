@@ -10,10 +10,11 @@ QR2AssistMe uses [codeigniter](http://codeigniter.com) framework as a base for d
 
 ## Installation & Configuration
 
-* **Download** the Release
+* **Download** the source code
 * **Create** a MySQL or MariaDB database called qrassist and take note of user/password information
 * **Copy** .env.default to .env
 * **Edit** .env accordingly (set base URL, google client and mysql information for example)
+* **Run** composer install 
 * **Run** refersh.sh (linux) or refresh.bat (windows)
 * **That's it!**  
 * After that it is a normal codeigniter application to develop

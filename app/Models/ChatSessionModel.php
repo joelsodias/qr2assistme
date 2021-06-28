@@ -167,9 +167,16 @@ class ChatSessionModel extends BaseModel
 		try {
 			if ($session_status) {
 				$builder = $this->builder();
-				$builder->select(" `chat_session`.*, 
+				$builder->select(" 
+				  `chat_session`.*, 
+				   at.user_name as attendant_name, 
+				   ate.user_name as attendee_name,
 				(SELECT COUNT(*) 
 				FROM	chat_message m WHERE m.session_uid = `chat_session`.session_uid) AS message_count ");
+
+				$builder->join("chat_user at","at.chat_user_uid = chat_session.attendant_uid", false);
+				$builder->join("chat_user ate","ate.chat_user_uid = chat_session.attendee_uid", false);
+
 				if (is_array($session_status)) {
 					if (count(array_diff($session_status, $this->validStatuses)) > 0) {
 						return null;
@@ -181,9 +188,9 @@ class ChatSessionModel extends BaseModel
 					}
 					$builder->where("session_status", $session_status);
 				}
-				$builder->where("deleted_at is null");
+				$builder->where("chat_session.deleted_at is null");
 
-				$builder->orderBy("created_at", (in_array(strtoupper($order), ["ASC", "DESC"])) ? $order : "ASC");
+				$builder->orderBy("chat_session.created_at", (in_array(strtoupper($order), ["ASC", "DESC"])) ? $order : "ASC");
 				$builder->limit(($limit) ? $limit : $this->defaultLimit);
 				$r = $builder->get()->getResultArray();
 				if (count($r)) {

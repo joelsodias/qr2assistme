@@ -19,7 +19,7 @@ QR2AssistMe uses [codeigniter](http://codeigniter.com) framework as a base for d
 * After that it is a normal codeigniter application to develop
 
 ## Custom Classes
-There are a number of new Classes Base classes added to help ordinary tasks:
+There are a number of new Classes called Base Classes added to help ordinary tasks and create an abstraction layer on codeigniter:
 * BaseModel
 * BaseView
 * BaseAdminLteView

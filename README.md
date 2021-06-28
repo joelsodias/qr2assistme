@@ -36,7 +36,7 @@ There are a number of new Classes Base classes added to help ordinary tasks:
 
 QR2AssistMe available under [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.html) licence.
 
-## Libraies and components used
+## Libraries and components used
 
 | Library | Version | Description |
 | -------- | -------- | -------- |

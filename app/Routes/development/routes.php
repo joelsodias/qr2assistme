@@ -9,7 +9,7 @@ $routes->get('uid', 'TestController::uuidtest');
 $routes->get('home', 'HomeController::index');
 $routes->get('/land', 'HomeController::landpage');
 $routes->get('leitor', 'QrCodeController::reader', ['filter' => 'ssl']);
-$routes->get('qr/(:segment)', 'QrCodeController::showScan/$1');
+$routes->get('code/(:segment)', 'QrCodeController::showScan/$1');
 
 $routes->get('home/shortid', 'HomeController::shortidtest');
 

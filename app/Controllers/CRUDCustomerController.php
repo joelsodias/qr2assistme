@@ -141,7 +141,7 @@ class CRUDCustomerController extends BaseAdminLteCRUDController
 
 			$record = [];
 			$post = $this->getRequest()->getPost();
-			$record["customer_uid"] = (string) UuidV6::uuid6();
+			$record["customer_uid"] = $this->getNewUUidString();
 			$record["customer_name"] = $this->getRequestParam("customer_name");
 			$record["customer_email"] = $this->getRequestParam("customer_email");
 			$record["customer_description"] = $this->getRequestParam("customer_description");

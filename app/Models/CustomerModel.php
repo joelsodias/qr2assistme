@@ -15,7 +15,7 @@ class CustomerModel extends BaseModel
 
 
 
-	
+
 	public function getRandomCustomer()
 	{
 
@@ -36,7 +36,7 @@ class CustomerModel extends BaseModel
 	{
 		if ($this->validateUuid($customer_uid)) {
 			$builder = $this->builder();
-			//$builder->where("customer_uid", $this->getUuidBytes($customer_uid));
+
 			$builder->where("customer_uid", $customer_uid);
 			$builder->limit(1);
 			$r = $builder->get()->getResult("array");
@@ -55,20 +55,25 @@ class CustomerModel extends BaseModel
 
 		$faker = \Faker\Factory::create('pt_BR');
 
-			$uuid = (string) Uuid::uuid6();
+		$uuid = $this->getNewUUidString();
 
-			if (!$data) {
-				$e = new \App\Entities\CustomerEntity();
-				$e->customer_uid = $uuid;
-				$e->customer_email = $faker->email;
-				$e->customer_name = $faker->name;
-			} else {
-				$e = new \App\Entities\CustomerEntity($data);
-				$e->customer_uid = $uuid;
-			}
+		if (!$data) {
+			$e = new \App\Entities\CustomerEntity();
+			$e->customer_uid = $uuid;
+			$firstName = $faker->firstName();
+			$lastName = $faker->lastName();
+			$lastName = str_replace(array("de ", "das ", "da ", "D'"), array("", "", "", ""), $lastName);
+			$name = $firstName . " " . $lastName;
+			$email = $this->normalizeString($firstName) . "." . $this->normalizeString($lastName) . substr(str_shuffle("123456789"),1,2) . "@teste.com";
+			$e->customer_email = $email;
+			$e->customer_name = $name;
+		} else {
+			$e = new \App\Entities\CustomerEntity($data);
+			$e->customer_uid = $e->customer_uid ?? $uuid;
+		}
 
-			$id = $this->insert($e, true);
-			$e = $this->find($id);
+		$id = $this->insert($e, true);
+		$e = $this->find($id);
 
 		return $e;
 	}

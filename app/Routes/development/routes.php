@@ -13,6 +13,12 @@ $routes->get('qr/(:segment)', 'QrCodeController::showScan/$1');
 
 $routes->get('home/shortid', 'HomeController::shortidtest');
 
+$routes->group('field', ['filter' => 'ssl+auth:admin'], function ($routes) {
+    $routes->get('/', 'AdminFieldController::index');
+    $routes->get('logout', 'AdminFieldController::logout');
+    $routes->get('schedule/open/(:segment)', 'ScheduleController::openSchedule/$1');
+    $routes->post('schedule/save', 'ScheduleController::saveSchedule/$1');
+});
 
 $routes->group('admin', ['filter' => 'ssl+auth:admin'], function ($routes) {
     $routes->get('/', 'AdminController::index');
@@ -24,8 +30,6 @@ $routes->group('admin', ['filter' => 'ssl+auth:admin'], function ($routes) {
     $routes->get('chat/(:segment)', 'ChatController::chatAttendant/$1');
     
     $routes->get('dashboard', 'AdminController::dashboard');
-
-    $routes->get('field', 'AdminController::viewFieldAdmin');
 
     $routes->get('qrobject', 'CRUDQrObjectController::index');
     $routes->get('qrobject/list', 'CRUDQrObjectController::getList');

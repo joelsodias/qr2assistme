@@ -19,8 +19,6 @@ class AuthController extends BaseController
 
 	protected function getCookieLoginInfo(string $key, string $section = null, string $provider = null)
 	{
-		// helper('cookie');
-
 		$doGetCookie = function ($key) {
 			$doUnserialize = function ($cookie) {
 				$unserialized = @unserialize($cookie);
@@ -45,8 +43,6 @@ class AuthController extends BaseController
 
 	protected function setCookieLoginInfo($value, string $section = null, string $provider = null, string $key = null)
 	{
-		// helper('cookie');
-
 		$doSetCookie = function ($key, $value) {
 			return cookie($key, serialize($value));
 		};
@@ -104,10 +100,9 @@ class AuthController extends BaseController
 
 	protected function getGoogleLoginData(string $section = "default", array $params = ["force_renew" => false, "redir_url" => "/google/login", "client_id" => "", "client_secret" => ""])
 	{
-
 		$doGetGoogleAuthUrl = function (\Google\Client $client, string $section) {
 			$this->clearSessionLoginInfo("google");
-			$stateCheck = "xchk" . (string) UuidV6::uuid6();
+			$stateCheck = "xchk" . $this->getNewUUidString();
 			$this->setSessionLoginInfo($stateCheck, $section, "google", "state_check");
 			$client->setState($stateCheck);
 			$AuthUrl = $client->createAuthUrl();
@@ -135,7 +130,6 @@ class AuthController extends BaseController
 		if ($p["client_id"] == "" || $p["client_secret"] == "") {
 			throw new Exception("No required credentials informed in \$params parameter");
 		}
-
 
 		$client = new \Google\Client();
 		$client->setClientId($p["client_id"]);
@@ -246,7 +240,7 @@ class AuthController extends BaseController
 			} else {
 				$e = new \App\Entities\ChatUserEntity();
 
-				$e->chat_user_uid = (string) UuidV6::uuid6();
+				$e->chat_user_uid = $this->getNewUUidString();
 				$e->user_type = "attendee";
 				$e->google_token = serialize($token);
 				$e->google_email = $user["email"];

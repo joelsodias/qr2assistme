@@ -1,5 +1,7 @@
 
 
+
+
 function fillCRUDForm(data, action) {
     var form = $("#" + action + "-modal-form");
     var fields = Object.keys(data);
@@ -49,13 +51,13 @@ defaultParams.ajaxlist = function (target,send_data) {
 
 defaultParams.setRowButtonsClick = function () {
     
-    $(".row-edit-button").on("click", function(e) {
-        e.preventDefault();
-        var data = window.dataTableObject.row(this.dataset.rowNum).data();
+    // $(".row-edit-button").on("click", function(e) {
+    //     e.preventDefault();
+    //     var data = window.dataTableObject.row(this.dataset.rowNum).data();
 
-        fillCRUDForm(data, "update");
+    //     fillCRUDForm(data, "update");
 
-    });
+    // });
 
     // TODO: Add delete action
 }
@@ -102,3 +104,32 @@ defaultParams.buttons = [{
 
     }
 ]
+
+
+defaultParams.language =
+ {
+    "decimal":        ",",
+    "emptyTable":     "Nada para exibir",
+    "info":           "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+    "infoEmpty":      "Exibindo página 0 de 0 de 0 registros",
+    "infoFiltered":   "(filtrado do total de _MAX_ registros)",
+    "infoPostFix":    "",
+    "thousands":      ".",
+    "lengthMenu":     "Exibir _MENU_ registros",
+    "loadingRecords": "Carregando...",
+    "processing":     "Processando...",
+    "search":         "Buscar:",
+    "zeroRecords":    "Nenhum resultado encontrado",
+    "paginate": {
+        "first":      "Primeira",
+        "last":       "Última",
+        "next":       "Próxima",
+        "previous":   "Anterior"
+    },
+    "aria": {
+        "sortAscending":  ": Ordenar A > Z",
+        "sortDescending": ": Ordenar Z > A"
+    }
+}
+
+

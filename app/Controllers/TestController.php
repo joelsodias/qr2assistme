@@ -79,9 +79,9 @@ class TestController extends BaseController
 	
 	public function uuidtest(){
 		
-		$uuid = Uuid::uuid6();
+		$uuid = $this->getNewUUidString();
 		
-		$data= ["uuid" => $uuid->toString()];
+		$data= ["uuid" => $uuid];
 		//return $this->response->setJSON($data);
 		return $this->getJsonWithCSRF($data);
 	}
@@ -99,9 +99,9 @@ class TestController extends BaseController
 
     public function qrcodetest(){
 
-		$uuid = Uuid::uuid6();
+		$uuid = $this->getNewUUidString();
 
-		$data = 'http://localhost/qr/'.$uuid->toString(); //inserindo a URL do iMasters
+		$data = 'http://localhost/qr/'.$uuid; //inserindo a URL do iMasters
 		return '<img src="' . (new QRCode)->render($data) . '" />'; //gerando o QRCode em uma tag img
 
 	}

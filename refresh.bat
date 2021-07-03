@@ -18,7 +18,7 @@ php spark db:seed ChatSessionSeeder
 echo starting seed Customer table 'qrobject' 
 php spark db:seed QrObjectSeeder 
 
-echo starting seed Customer table 'scheduler' 
+echo starting seed Customer table 'schedule' 
 php spark db:seed ScheduleSeeder 
 
 

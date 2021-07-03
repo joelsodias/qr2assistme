@@ -10,7 +10,6 @@ class QrCodeController extends BaseController
 {
 	protected $viewClass = "App\Views\BaseAdminLteView";
 
-
 	
 	public function index() {
 	
@@ -29,10 +28,9 @@ class QrCodeController extends BaseController
 		$qtd = 18;
 
 		for ($i=0; $i <= $qtd-1; $i++){
-		   $uuid	= UuidV6::uuid6();
-		   $str = $uuid->toString();
-		   $id[] = $str;  
-		   $qr[] =  (new QRCode)->render(base_url('/qr/'.base64_encode('sup/obj/'. $str)));	
+		   $uuid	= $this->getNewUUidString();
+		   $id[] = $uuid;  
+		   $qr[] =  (new QRCode)->render(base_url('/qr/'.base64_encode('sup/obj/'. $uuid)));	
 		}
 
 		$data = [

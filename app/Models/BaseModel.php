@@ -5,6 +5,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 use Ramsey\Uuid\Nonstandard\UuidV6;
 use App\Helpers\CustomHelper;
+use Ramsey\Uuid\Provider\Node\RandomNodeProvider;
 
 class BaseModel extends Model
 {
@@ -43,34 +44,49 @@ class BaseModel extends Model
 	protected $afterDelete          = [];
 
 
-	protected function validateUuid($uuid =null, $allowNull = false) {
-		return  ((!isset($uuid) && $allowNull) || (isset($uuid) && UuidV6::isValid($uuid)));
+	protected function validateUuid($uuid = null, $allowNull = false)
+	{
+		return ((!isset($uuid) && $allowNull) || (isset($uuid) && UuidV6::isValid($uuid)));
 	}
 
-	protected function getUuidBytes(string $uuid = null)
+	protected function getNewUUid()
 	{
+		$nodeProvider = new RandomNodeProvider();
+		return UuidV6::uuid6($nodeProvider->getNode());
+	}
+
+	protected function getNewUUidString()
+	{
+		return (string) $this->getNewUUid();
+	}
+
+	protected function getUuidAsBytes(string $uuid = null)
+	{ 
 		return ($uuid) ? UuidV6::fromString($uuid)->getBytes() : null;
 	}
 
-	protected function getUuidString($uuid = null)
+	protected function getUuidAsString($uuid = null)
 	{
 		if ($uuid) {
 			if (strlen($uuid) == 16) {
 				$uuid = (string) UuidV6::fromBytes($uuid);
 			} elseif (strlen($uuid) == 36) {
 				$uuid = (UuidV6::isValid($uuid)) ? $uuid : null;
-			} else { throw new \Exception("Uuid with wrong length expecting 16 or 36");  }
-		} 
+			} else {
+				throw new \Exception("Uuid with wrong length expecting 16 or 36");
+			}
+		} else $uuid = null;
 		return $uuid;
 	}
 
-	protected function convertUuidFieldsArray(array $data){
-       array_walk_recursive($data, function (&$item, $key){
-		   if (CustomHelper::str_ends_with($key,"_uid")) {
-			   $item = $this->getUuidString($item);
-		   }
-	   });
-	   return $data;
+	protected function convertUuidFieldsArray(array $data)
+	{
+		array_walk_recursive($data, function (&$item, $key) {
+			if (CustomHelper::str_ends_with($key, "_uid")) {
+				$item = $this->getUuidAsString($item);
+			}
+		});
+		return $data;
 	}
 
 
@@ -78,6 +94,18 @@ class BaseModel extends Model
 	{
 		return (array_key_exists($key, $params)) ? $params[$key] : $default;
 	}
+
+	function normalizeString($string)
+	{
+		$a = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ';
+		$b = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
+		$string = utf8_decode($string);
+		$string = strtr($string, utf8_decode($a), $b);
+		$string = strtolower($string);
+		return utf8_encode($string);
+	}
+
+
 
 
 }

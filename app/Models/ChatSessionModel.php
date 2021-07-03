@@ -58,9 +58,6 @@ class ChatSessionModel extends BaseModel
 
 				$builder = $this->builder();
 
-				//$attendant_uid_bytes = $this->getUuidBytes($attendant_uid);
-				//$attendee_uid_bytes = $this->getUuidBytes($attendee_uid);
-				//$session_uid_bytes = $this->getUuidBytes($session_uid);
 				$attendant_uid_bytes = $attendant_uid;
 				$attendee_uid_bytes = $attendee_uid;
 				$session_uid_bytes = $session_uid;
@@ -101,11 +98,10 @@ class ChatSessionModel extends BaseModel
 			if ($this->validateUuid($chat_user_uid)) {
 				$builder = $this->builder();
 				if ($user_type) {
-					//$builder->where($user_type . "_uid", $this->getUuidBytes($chat_user_uid));
+
 					$builder->where($user_type . "_uid", $chat_user_uid);
 				} else {
-					//$builder->Where("attendee_uid", $this->getUuidBytes($chat_user_uid));
-					//$builder->orWhere("attendant_uid", $this->getUuidBytes($chat_user_uid));
+
 					$builder->Where("attendee_uid", $chat_user_uid);
 					$builder->orWhere("attendant_uid", $chat_user_uid);
 				}
@@ -138,7 +134,7 @@ class ChatSessionModel extends BaseModel
 		try {
 			if ($this->validateUuid($session_uid)) {
 				$builder = $this->builder();
-				//$builder->where("session_uid", $this->getUuidBytes($session_uid));
+
 				$builder->where("session_uid", $session_uid);
 				if ($session_status) {
 					$builder->whereIn("session_status", $session_status);

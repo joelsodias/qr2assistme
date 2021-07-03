@@ -15,12 +15,12 @@ class WorkerSeeder extends BaseSeeder
 
 		for ($i = 0; $i < $max; $i++) {
 
-			$uuid = $this->getUUid();
+			$uuid = $this->getNewUUidString();
 			$firstName = $faker->firstName();
 			$lastName = $faker->lastName();
-			$lastName = str_replace(array("de ", "das ", "da ", "D'"), array("", "", "", ""), $lastName);
+			$emailLastName = str_replace(array("de ", "das ", "da ", "D'"), array("", "", "", ""), $lastName);
 			$name = $firstName . " " . $lastName;
-			$email = $this->normalizeString($firstName) . "." . $this->normalizeString($lastName) . "@teste.com";
+			$email = $this->normalizeString($firstName) . "." . $this->normalizeString($emailLastName) . "@teste.com";
 
 			$w = new \App\Entities\WorkerEntity();
 			$w->worker_uid = $uuid;

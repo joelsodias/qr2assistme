@@ -40,19 +40,15 @@ class BaseSeeder extends Seeder
 		return $_faker;
 	}
 
-	protected function getUUid()
+	protected function getNewUUid()
 	{
-		// $factory = new UuidFactory();
-		// $codec = new OrderedTimeCodec($factory->getUuidBuilder());
-		//$factory->setCodec($codec);
-
 		$nodeProvider = new RandomNodeProvider();
 		return UuidV6::uuid6($nodeProvider->getNode());
 	}
 
-	protected function getUUidStr()
+	protected function getNewUUidString()
 	{
-		return (string) $this->getUUid();
+		return (string) $this->getNewUUid();
 	}
 
 	function getRandomString($length = 10, string $alphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
@@ -115,12 +111,11 @@ class BaseSeeder extends Seeder
 	}
 
 
-	function normalizeString ($string){
-		$a = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ
-	ßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ';
-		$b = 'aaaaaaaceeeeiiiidnoooooouuuuy
-	bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
-		$string = utf8_decode($string);    
+	function normalizeString($string)
+	{
+		$a = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ';
+		$b = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
+		$string = utf8_decode($string);
 		$string = strtr($string, utf8_decode($a), $b);
 		$string = strtolower($string);
 		return utf8_encode($string);

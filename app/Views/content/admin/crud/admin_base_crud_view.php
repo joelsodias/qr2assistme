@@ -91,12 +91,13 @@ function dispath_form_method($controller, $form_method, $data)
                 "serverSide": true,
                 "processing": true,
                 "paging": true,
-                "ajax": defaultParams.ajaxlist(window.atob('<?= base64_encode(isset($list_url) ? (($list_url) ? base_url($list_url) : "#NotImplemented") : "") ?>'),send_data),
+                "ajax": defaultParams.ajaxlist(window.atob('<?= base64_encode(isset($list_url) ? (($list_url) ? base_url($list_url) : "#NotImplemented") : "") ?>'), send_data),
                 "lengthChange": true,
                 "lengthMenu": defaultParams.lengthMenu,
                 "pageLength": 10,
                 "responsive": true,
                 "searchDelay": 350,
+                "language": defaultParams.language,
                 "buttons": defaultParams.buttons,
 
                 <?php
@@ -139,15 +140,15 @@ function dispath_form_method($controller, $form_method, $data)
 
                     <?php endif; ?>
 
-                    defaultParams.setRowButtonsClick()
-                    window.dataTableObject.on("draw", defaultParams.setRowButtonsClick)
-                    window.dataTableObject.on("page", defaultParams.setRowButtonsClick)
+                    // defaultParams.setRowButtonsClick()
+                    // window.dataTableObject.on("draw", defaultParams.setRowButtonsClick)
+                    // window.dataTableObject.on("page", defaultParams.setRowButtonsClick)
 
 
                     $('#dataTable_wrapper > .row > .col-md-6:eq(1)').append(
                         $('<a href="#" class="btn btn-primary mr-3"><span class="fas fa-undo mr-2"></span><?= $reload_button_label ?></a>')
                         .on("click", function(e) {
-                            window.dataTableObject.ajax.reload(defaultParams.setRowButtonsClick);
+                           // window.dataTableObject.ajax.reload(defaultParams.setRowButtonsClick);
                         })
                     );
 
@@ -204,28 +205,27 @@ function dispath_form_method($controller, $form_method, $data)
     }
 
 
-
     $(function() {
 
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        // Source: https://mdbootstrap.com/docs/standard/forms/validation/
-        (() => {
-            'use strict';
+        // // Example starter JavaScript for disabling form submissions if there are invalid fields
+        // // Source: https://mdbootstrap.com/docs/standard/forms/validation/
+        // (() => {
+        //     'use strict';
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('form');
+        //     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        //     const forms = document.querySelectorAll('form');
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms).forEach((form) => {
-                form.addEventListener('submit', (event) => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        })();
+        //     // Loop over them and prevent submission
+        //     Array.prototype.slice.call(forms).forEach((form) => {
+        //         form.addEventListener('submit', (event) => {
+        //             if (!form.checkValidity()) {
+        //                 event.preventDefault();
+        //                 event.stopPropagation();
+        //             }
+        //             form.classList.add('was-validated');
+        //         }, false);
+        //     });
+        // })();
 
         // Setup - add a text input to each footer cell
         $('#dataTable thead th').each(function() {
@@ -234,9 +234,16 @@ function dispath_form_method($controller, $form_method, $data)
         });
 
 
-
         // DATATABLE CREATION
         createDataTable();
+
+        $("#dataTable").on("click", ".row-edit-button", function(e) {
+            e.preventDefault();
+            var data = window.dataTableObject.row(this.dataset.rowNum).data();
+
+            fillCRUDForm(data, "update");
+
+        });
 
 
         <?php if ($allow_insert ?? false) : ?>
@@ -286,7 +293,7 @@ function dispath_form_method($controller, $form_method, $data)
                         xhr.setRequestHeader(window.atob(_csr.hn), getCookie(window.atob(_csr.cn)));
                     },
                     success: function(data) {
-                       
+
                         if (data.length) {
 
                         }

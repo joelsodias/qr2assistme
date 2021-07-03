@@ -29,7 +29,7 @@ class QrObjectSeeder extends BaseSeeder
 		$max = 100;
 		for ($i = 0; $i < $max; $i++) {
 
-			$uuid = $this->getUUid();
+			$uuid = $this->getNewUUidString();
 
 			if (strlen($uuid) < 16) {
 				throw new Exception("UUID shorter than 16");
@@ -45,7 +45,7 @@ class QrObjectSeeder extends BaseSeeder
 
 			$e->object_uid = $uuid;
 			$e->owner_uid = $customer_uid;
-			$e->description = "Descrição do item {$uuid}";
+			$e->object_description = "Descrição do item {$uuid}";
 			$e->object_name = $this->getRandomItem($items);
 			$e->object_model = "OBJ-" . $this->getRandomString(15);
 			$e->object_serial = $this->getRandomString(8, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");

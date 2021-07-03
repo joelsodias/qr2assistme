@@ -8,6 +8,7 @@ use Ramsey\Uuid\Nonstandard\UuidV6;
 use \App\Entities\QrObjectEntity;
 use \App\Views\CRUDQrObjectView;
 
+
 class CRUDQrObjectController extends BaseAdminLteCRUDController
 {
 
@@ -109,7 +110,7 @@ class CRUDQrObjectController extends BaseAdminLteCRUDController
 				"object_name" => $value->object_name,
 				"object_serial" => $value->object_serial,
 				"object_model" => $value->object_model,
-				"description" => $value->description,
+				"object_description" => $value->object_description,
 			];
 			unset($value->id);
 			unset($value->deleted_at);
@@ -164,12 +165,12 @@ class CRUDQrObjectController extends BaseAdminLteCRUDController
 
 			$record = [];
 
-			$record["object_uid"] =  (string) UuidV6::uuid6();
+			$record["object_uid"] =  $this->getNewUUidString();
 			$record["owner_uid"] = $this->getRequestParam("owner_uid");
 			$record["object_name"] = $this->getRequestParam("object_name");
 			$record["object_model"] = $this->getRequestParam("object_model");
 			$record["object_serial"] = $this->getRequestParam("object_serial");
-			$record["description"] = $this->getRequestParam("description");
+			$record["object_description"] = $this->getRequestParam("object_description");
 
 			$e = new \App\Entities\QrObjectEntity($record);
 			$qrObjModel = new \App\Models\QrObjectModel();
@@ -235,7 +236,7 @@ class CRUDQrObjectController extends BaseAdminLteCRUDController
 				$old->object_name = $this->getRequestParam("object_name") ?? $old->object_name;
 				$old->object_serial = $this->getRequestParam("object_serial") ?? $old->object_serial;
 				$old->object_model = $this->getRequestParam("object_model") ?? $old->object_model;
-				$old->object_model = $this->getRequestParam("object_model") ?? $old->object_model;
+				$old->object_description = $this->getRequestParam("object_description") ?? $old->object_description;
 
 				$qrObjModel->save($old);
 

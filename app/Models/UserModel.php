@@ -19,8 +19,8 @@ class UserModel extends BaseModel
             unset($r[0]->user_password);
             unset($r[0]->user_password_open);
             return $r[0];
-         } else return false;
-      } else return false;
+         } else return null;
+      } else return null;
    }
 
    public function createUser(\App\Entities\UserEntity $data = null)

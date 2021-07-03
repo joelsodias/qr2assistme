@@ -10,7 +10,7 @@ class CRUDQrObjectView extends BaseAdminLteCRUDView {
 	public function getCustomHTML($data = null)
 	{
 
-?>
+/* ? >
 
 		<div class="modal fade" id="myModal">
 			<div class="modal-dialog">
@@ -128,13 +128,14 @@ class CRUDQrObjectView extends BaseAdminLteCRUDView {
 				</div>
 			</div>
 		</div>
+		<a data-toggle="modal" data-backdrop="static" href="#myModal" class="btn btn-primary">Launch modal</a>
 	<?php
 	}
 
 	public function getEditForm($form_method)
 	{
 	?>
-		<a data-toggle="modal" data-backdrop="static" href="#myModal" class="btn btn-primary">Launch modal</a>
+		
 
 		<div class="form-group row">
 			<label class="col-md-2 col-form-label">Nome/Descrição Resumida</label>
@@ -193,7 +194,7 @@ class CRUDQrObjectView extends BaseAdminLteCRUDView {
 			</div>
 		</div>
 <?php
-
+*/
 
 	}
 

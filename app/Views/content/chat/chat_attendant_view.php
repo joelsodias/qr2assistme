@@ -32,11 +32,11 @@
                 </a>
             </div>
         </div>
-        <div id="chat-left-wrapper" class="small">
+        <div id="chat-left-wrapper" class="">
 
             <?php for ($i = 0; $i < count($sessions); $i++) : ?>
                 <div id="chat-session-<?= $sessions[$i]->session_uid ?>" class="chat-session d-flex border-bottom">
-                    <img class="session-avatar" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+                    <img class="session-avatar" src="https://source.unsplash.com/300x300/?face&<?= $i ?>">
 
                     <div class="details w-100 d-flex flex-column justify-content-center ">
                         <div class="details-top d-flex">
@@ -68,8 +68,8 @@
                 </a>
             </div>
         </div>
-        <div id="chat-right-messages" class="small">
-            <div id="chat-message-list" class="small p-3">
+        <div id="chat-right-messages" class="">
+            <div id="chat-message-list" class=" p-3">
 
 
             </div>

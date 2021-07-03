@@ -90,7 +90,7 @@ class ChatUserModel extends BaseModel
 	{
 		if ($this->validateUuid($chat_user_uid)) {
 			$builder = $this->builder();
-			//$builder->where("chat_user_uid", $this->getUuidBytes($chat_user_uid));
+
 			$builder->where("chat_user_uid", $chat_user_uid);
 			if ($user_type) {
 				$builder->where("user_type", $user_type);
@@ -116,7 +116,7 @@ class ChatUserModel extends BaseModel
 			
 			if (!isset($data)) {
 				$e = new \App\Entities\ChatUserEntity();
-				$uuid = (string) Uuid::uuid6();
+				$uuid = $this->getNewUUidString();
 				$e->chat_user_uid = $uuid;
 				$e->google_token = null;
 				$e->facebook_token = null;
@@ -127,7 +127,7 @@ class ChatUserModel extends BaseModel
 				$e->is_guest = $guest;
 			} else {
 				$e = $data;
-				$e->chat_user_uid = $e->chat_user_uid ?? (string) Uuid::uuid6();
+				$e->chat_user_uid = $e->chat_user_uid ?? $this->getNewUUidString();
 				$e->user_type = $type;
 			}
 			

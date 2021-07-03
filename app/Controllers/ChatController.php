@@ -93,7 +93,7 @@ class ChatController extends BaseAdminLteController
 	{
 		if ($type == "attendee" || $type == "attendant" ||  $type == "guest") {
 
-			$uuid = (string) UuidV6::uuid6();
+			$uuid = $this->getNewUUidString();
 
 			$guest = ($type == "guest") ? "S" : "N";
 			$type = ($type == "guest") ? "attendee" : $type;
@@ -592,7 +592,7 @@ class ChatController extends BaseAdminLteController
 
 				if (in_array($json->sender_uid, [$session->attendee_uid, $session->attendant_uid])) {
 
-					$message_uid = (string) UuidV6::uuid6();
+					$message_uid = $this->getNewUUidString();
 
 					$messageModel = new \App\Models\ChatMessageModel();
 					$e = new \App\Entities\ChatMessageEntity();

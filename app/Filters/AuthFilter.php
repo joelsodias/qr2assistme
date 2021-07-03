@@ -13,22 +13,21 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $session = Services::session();
+        $path = $request->uri->getPath();
 
         if (isset($_SESSION["auth"][$arguments[0]]["connected"]) && $_SESSION["auth"][$arguments[0]]["connected"]) {
-            if ($request->uri->getPath() == $arguments[0]  . '/login') {
+            if ($path == $arguments[0]  . '/login') {
                 return redirect()->to("/" . $arguments[0]);
-            } elseif ($request->uri->getPath() == $arguments[0]  . '/logout') {
+            } elseif (
+                $path == $arguments[0]  . '/logout' ||
+                str_ends_with($path, '/logout')
+            ) {
                 unset($_SESSION["auth"][$arguments[0]]);
-                $_SESSION["auth"][$arguments[0]]["connected"]=false;
+                $_SESSION["auth"][$arguments[0]]["connected"] = false;
                 return redirect()->to("/" . $arguments[0] . '/login');
             }
-
-            // if ($request->uri->getSegment(1) == 'admin')
-            // {
-            //      return redirect()->back();
-            // }
         } else {
-            if ($request->uri->getPath() != $arguments[0] . '/login') {
+            if ($path != $arguments[0] . '/login') {
                 return redirect()->to("/" . $arguments[0] . '/login');
             }
         }

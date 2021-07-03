@@ -14,6 +14,7 @@ use Ramsey\Uuid\Nonstandard\UuidV6;
 use App\Views\BaseView;
 use Config\Services as AppServices;
 use App\Helpers\CustomHelper;
+use Ramsey\Uuid\Provider\Node\RandomNodeProvider;
 
 /**
  * Class BaseController
@@ -43,7 +44,8 @@ class BaseController extends Controller
 
 	protected $viewClass = "App\Views\BaseView";
 
-
+	protected $userdata;
+	
 	/**
 	 * Constructor.
 	 *
@@ -72,7 +74,16 @@ class BaseController extends Controller
 	}
 
 
-	
+	protected function getNewUUid()
+	{
+		$nodeProvider = new RandomNodeProvider();
+		return UuidV6::uuid6($nodeProvider->getNode());
+	}
+
+	protected function getNewUUidString()
+	{
+		return (string) $this->getNewUUid();
+	}
 
 
 	public function parseView($view, $data)
@@ -96,6 +107,13 @@ class BaseController extends Controller
 			return $json->$param_name;
 		} else return null;
 	}
+
+	protected function getRequestFiles()
+	{
+		return $this->getRequest()->getFiles();
+	}
+
+
 
 	protected function validateUuid($uuid = null, $allowNull = false)
 	{

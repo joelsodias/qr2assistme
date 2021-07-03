@@ -32,7 +32,7 @@ class QrObjectTable extends BaseTableMigration
                 "constraint"     => 250,
                 "null" => true
             ],
-            "description" => [
+            "object_description" => [
                 "type" => "TEXT",
                 "null" => true
             ],
@@ -51,7 +51,7 @@ class QrObjectTable extends BaseTableMigration
                 "null" => true,
                 "constraint"     => 250,
             ],
-            "obs" => [
+            "object_obs" => [
                 "type" => "TEXT",
                 "null" => true
             ],

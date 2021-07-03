@@ -12,7 +12,7 @@ class UserSeeder extends BaseSeeder
 
 		$max = 100;
 		for ($i = 0; $i < $max; $i++) {
-			$uuid = $this->getUUid();
+			$uuid = $this->getNewUUidString();
 
 			$userModel = new \App\Models\UserModel();
 			$e = new \App\Entities\UserEntity();

@@ -17,7 +17,7 @@ class ChatMessageModel extends BaseModel
 	{
 		if ($this->validateUuid($message_uid)) {
 			$builder = $this->builder();
-			//$builder->where("message_uid", $this->getUuidBytes($message_uid));
+
 			$builder->where("message_uid", $message_uid);
 			$builder->limit(1);
 			$r = $builder->get()->getResultArray();
@@ -36,7 +36,7 @@ class ChatMessageModel extends BaseModel
 			$builder = $this->builder();
 			$builder->select("chat_message.*, chat_user.user_avatar");
 			$builder->join("chat_user","chat_user.chat_user_uid = chat_message.sender_uid","left outer");
-			//$builder->where("session_uid", $this->getUuidBytes($session_uid));
+
 			$builder->where("session_uid", $session_uid);
 			if ($limit) {
 				$builder->limit($limit);
@@ -83,8 +83,6 @@ class ChatMessageModel extends BaseModel
 
 			$query = $this->db->query($sql, 
 			  [
-				//'p_user_uid' => $this->getUuidBytes($chat_user_uid),
-				//'p_session_uid' => $this->getUuidBytes($session_uid)
 				'p_user_uid' => $chat_user_uid,
 				'p_session_uid' => $session_uid
 				

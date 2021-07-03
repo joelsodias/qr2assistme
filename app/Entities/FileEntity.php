@@ -5,7 +5,7 @@ namespace App\Entities;
 use App\Entities\BaseEntity;
 
 
-class ScheduleEntity extends BaseEntity
+class FileEntity extends BaseEntity
 {
 	public function getScheduleUid()
     {
@@ -15,16 +15,6 @@ class ScheduleEntity extends BaseEntity
     public function setScheduleUid(string $uuid)
     {
        $this->_setUuidField('schedule_uid',$uuid);
-    }
-
-    public function getScheduledByUid()
-    {
-       return $this->_getUuidField('schedule_by_uid');
-    }
-
-    public function setScheduledByUid(string $uuid)
-    {
-       $this->_setUuidField('schedule_by_uid',$uuid);
     }
 
 	public function getWorkerUid()
@@ -56,5 +46,17 @@ class ScheduleEntity extends BaseEntity
     {
        $this->_setUuidField('object_uid',$uuid);
     } 
+
+    public function getFileUid()
+    {
+       return $this->_getUuidField('file_uid');
+    }
+
+    public function setFileUid(string $uuid)
+    {
+       $this->_setUuidField('file_uid',$uuid);
+    } 
+
+
 
 }

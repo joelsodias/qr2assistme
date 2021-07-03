@@ -31,7 +31,19 @@ class ScheduleTable extends BaseTableMigration
                 'null'              => false,
             ],
 
+            'object_uid'         => [
+                'type'              => 'CHAR',
+                'constraint'        => 36,
+                'null'              => true,
+            ],
+
             'ticket_uid'         => [
+                'type'              => 'CHAR',
+                'constraint'        => 36,
+                'null'              => true,
+            ],
+
+            'customer_uid'         => [
                 'type'              => 'CHAR',
                 'constraint'        => 36,
                 'null'              => true,
@@ -53,47 +65,55 @@ class ScheduleTable extends BaseTableMigration
                 'null'              => true,
             ],
 
-            'started_at'       => [
+            'schedule_started_at'       => [
                 'type'           => 'TIMESTAMP',
-                'null'              => false,
+                'null'              => true,
             ],
 
-            'ended_at'       => [
+            'schedule_ended_at'       => [
                 'type'           => 'TIMESTAMP',
-                'null'              => false,
+                'null'              => true,
             ],
 
-            'service_name' => [
+
+            
+            'schedule_object_name' => [
+                'type' => 'VARCHAR',
+                'constraint'        => 50,
+                'null' => true,
+            ],
+
+            'schedule_service_name' => [
                 'type' => 'VARCHAR',
                 'constraint'        => 50,
                 'null' => false,
             ],
 
-            'contact_name'       => [
+            'schedule_contact_name'       => [
                 'type'       => 'VARCHAR',
                 'constraint' => 250,
                 'null' => false,
             ],
 
-            'contact_phone'       => [
+            'schedule_contact_phone'       => [
                 'type'       => 'VARCHAR',
                 'constraint' => 20,
                 'null' => false,
             ],
 
-            'city'       => [
+            'schedule_city'       => [
                 'type'       => 'VARCHAR',
                 'constraint' => 250,
                 'null' => false,
             ],
 
-            'address'       => [
+            'schedule_address'       => [
                 'type'       => 'VARCHAR',
                 'constraint' => 250,
                 'null' => false,
             ],
 
-            'description' => [
+            'schedule_description' => [
                 'type' => 'TEXT',
                 'null' => true,
             ],

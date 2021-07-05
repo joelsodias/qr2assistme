@@ -46,7 +46,7 @@ class AuthController extends BaseController
 		$fb = new \Facebook\Facebook([
 			'app_id' => $p["client_id"],
 			'app_secret' => $p["client_secret"],
-			'default_graph_version' => 'v5',
+			'default_graph_version' => 'v2.10',
 			'state' => $stateCheck
 		]);
 

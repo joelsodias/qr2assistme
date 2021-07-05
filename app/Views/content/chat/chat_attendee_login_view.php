@@ -30,7 +30,12 @@
 
 <?= $this->section('content') ?>
 <section class="h-100 w-100 border d-flex justify-content-center align-items-center">
-
+<!-- <div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div> -->
     <div class="">
     <header class="text-center">
         <img class="logo" src="/images/logo.png">

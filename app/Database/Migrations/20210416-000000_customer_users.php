@@ -34,8 +34,8 @@ class CustomerUsersTable extends BaseTableMigration
         $this->forge->addPrimaryKey('id');
         $this->forge->addKey('customer_uid', true);
         $this->forge->addKey('user_uid', true);
-        $this->forge->addForeignKey('customer_uid', 'customer', 'customer_uid');
-        $this->forge->addForeignKey('user_uid', 'user', 'user_uid');
+        //$this->forge->addForeignKey('customer_uid', 'customer', 'customer_uid');
+        //$this->forge->addForeignKey('user_uid', 'user', 'user_uid');
         $this->forge->createTable('customer_users');
     }
 

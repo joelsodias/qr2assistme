@@ -45,9 +45,9 @@
             <div class="col-12 d-flex justify-content-center align-items-center flex-wrap">
                 <a href="<?= $google["auth_url"] ?? "#error" ?>" class="btn btn-danger  m-3"><i class="fab fa-google-plus-square fa-3x"></i></a>
                 <a href="/attendee/chat/guest" class="btn btn-dark m-3"><i class="fab fa-facebook-square fa-3x"></i></a>
-                <a href="/attendee/chat/guest" class="btn btn-dark m-3"><i class="fab fa-linkedin fa-3x"></i></a>
+                <!-- <a href="/attendee/chat/guest" class="btn btn-dark m-3"><i class="fab fa-linkedin fa-3x"></i></a>
                 <a href="/attendee/chat/guest" class="btn btn-dark m-3"><i class="fab fa-microsoft fa-3x"></i></i></a>
-                <a href="/attendee/chat/guest" class="btn btn-dark m-3"><i class="fab fa-instagram fa-3x"></i></i></a>
+                <a href="/attendee/chat/guest" class="btn btn-dark m-3"><i class="fab fa-instagram fa-3x"></i></i></a> -->
             </div>
         </div>
 

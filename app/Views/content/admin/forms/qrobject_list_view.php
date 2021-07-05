@@ -44,7 +44,7 @@
                             <tr>
                                 <td><?= $item->object_id ?></td>
                                 <td><?= $item->object_uid ?></td>
-                                <td><?= $item->owner_uid ?></td>
+                                <td><?= $item->object_owner_uid ?></td>
                                 <td><?= $item->description ?></td>
                                 <td>
                                     <a href="<?= route_to('App\Controllers\QrObjectController::edit', $item->object_uid) ?>" class="btn btn-primary btn-sm">Editar</a>

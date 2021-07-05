@@ -293,7 +293,7 @@
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
-  
+
   <!-- jQuery -->
   <!-- <script src="/adminlte/plugins/jquery/jquery.js"></script> -->
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -302,14 +302,14 @@
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
     $.widget.bridge('uibutton', $.ui.button)
-    </script>
+  </script>
 
-<!-- Bootstrap 4 -->
-<script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.js"></script>
-<!-- AdminLTE -->
-<script src="/adminlte/dist/js/adminlte.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.js"></script>
+  <!-- AdminLTE -->
+  <script src="/adminlte/dist/js/adminlte.js"></script>
 
-<!-- OPTIONAL SCRIPTS -->
+  <!-- OPTIONAL SCRIPTS -->
 
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
@@ -325,7 +325,10 @@
   <!-- Summernote -->
   <script src="/adminlte/plugins/summernote/summernote-bs4.js"></script>
 
-<?php
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
+
+  <?php
   // <!-- ChartJS -->
   // <!-- <script src="/adminlte/plugins/chart.js/Chart.js"></script> -->
   // <!-- Sparkline -->
@@ -336,7 +339,7 @@
 
 
 
-?>
+  ?>
   <?php if ($enable_datatables ?? false) :  ?>
     <!-- DataTables  & Plugins -->
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
@@ -354,11 +357,11 @@
     <script src="/adminlte/plugins/datatables-buttons/js/buttons.colVis.js"></script>
   <?php endif; ?>
 
-<!-- ########################################### -->
+  <!-- ########################################### -->
 
-<!-- commom app code -->
-<?= $this->getCSRFDefaultScript() ?>
-<script src="/js/common.js"></script>
+  <!-- commom app code -->
+  <?= $this->getCSRFDefaultScript() ?>
+  <script src="/js/common.js"></script>
   <?= $this->renderSection("custom_scripts") ?>
 </body>
 

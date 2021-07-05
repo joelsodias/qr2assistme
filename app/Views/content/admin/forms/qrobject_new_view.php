@@ -33,8 +33,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('custom_scripts') ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
+
 <script type="module">
     import ScannerClass from "/scanner/scanner.js";
 
@@ -81,7 +80,7 @@
                     object_uid: {
                         required: true,
                     },
-                    owner_uid: {
+                    object_owner_uid: {
                         required: true,
                     },
                     description: {
@@ -94,7 +93,7 @@
                     object_uid: {
                         required: "Object is required.",
                     },
-                    owner_uid: {
+                    object_owner_uid: {
                         required: "Owner is required.",
                     },
                     description: {
@@ -197,7 +196,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="owner_uid">Proprietário (Owner Uid)</label>
+                <label for="object_owner_uid">Proprietário (Owner Uid)</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <button id="scanQrCode" class="btn btn-outline-secondary" type="button">
@@ -205,7 +204,7 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <input name="owner_uid" id="owner_uid" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                    <input name="object_owner_uid" id="object_owner_uid" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
                 </div>
             </div>
 

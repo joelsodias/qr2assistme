@@ -22,22 +22,27 @@ class TicketTable extends BaseTableMigration
                 "constraint" => 36,
                 "null" => false
             ],
-            "parent_uid" => [
+            "ticket_parent_uid" => [
                 "type" => "CHAR",
                 "constraint" => 36,
                 "null" => true
             ],
-            'owner_uid'          => [
+            'ticket_owner_uid'          => [
                 'type'           => 'CHAR',
                 "constraint"     => 36,
                 'null'       => true,
             ],
-            'executor_uid'          => [
+            'ticket_executor_uid'          => [
                 'type'           => 'CHAR',
                 "constraint"     => 36,
                 'null'       => true,
             ],
-            "description" => [
+            'ticket_object_uid'          => [
+                'type'           => 'CHAR',
+                "constraint"     => 36,
+                'null'       => true,
+            ],
+            "ticket_description" => [
                 "type" => "TEXT",
                 "null" => true
             ],
@@ -50,7 +55,7 @@ class TicketTable extends BaseTableMigration
                 "null" => true,
                 "default" => "draft"
             ],
-            'open_at'       => [
+            'ticket_opened_at'       => [
                 'type'       => 'TIMESTAMP',
                 'null'       => true,
             ],
@@ -60,9 +65,9 @@ class TicketTable extends BaseTableMigration
 
         $this->forge->addPrimaryKey("id");
         $this->forge->addKey("ticket_uid",false,true);
-        $this->forge->addKey("owner_uid");
-        $this->forge->addKey("parent_uid");
-        $this->forge->addKey("executor_uid");
+        $this->forge->addKey("ticket_owner_uid");
+        $this->forge->addKey("ticket_parent_uid");
+        $this->forge->addKey("ticket_executor_uid");
         $this->forge->addKey("ticket_status");
         $this->forge->createTable("ticket");
     }

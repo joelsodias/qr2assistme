@@ -41,8 +41,8 @@
         </div>
         <div class="row mt-2">
             <div class="col-12 text-center">
-                <a id="gotoStep2" href="#" class="btn btn-danger mt-3 col-xs-12 col-md-6 ">Quero solicitar assitência para um equipamento</a>
-                <a href="/chat/login" class="btn btn-info mt-3 col-xs-12 col-md-6 ">Desejo outro tipo de atendimento</a>
+                <a id="gotoStep2" href="#" class="btn btn-danger mt-3 col-xs-12 col-md-6 ">Quero solicitar asssitência para um equipamento</a>
+                <a href="/attendee/login/chat" class="btn btn-info mt-3 col-xs-12 col-md-6 ">Desejo outro tipo de atendimento</a>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
         </div>
         <div class="row mt-2">
             <div class="col-12 text-center">
-                <a href="/chat/login" class="btn btn-danger mt-3 col-12">Não estou perto, não tenho celular ou não encontrei o QR Code!</a>
+                <a href="/attendee/login/chat" class="btn btn-danger mt-3 col-12">Não estou perto, não tenho celular ou não encontrei o QR Code!</a>
             </div>
         </div>
     </div>

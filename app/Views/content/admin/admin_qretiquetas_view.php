@@ -61,7 +61,7 @@
                     <div class="col-12 border border-primary rounded">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-center text-black flex-column">
-                                <span class="text-monospace font-s font-weight-bold text-center text-uppercase"><?= $nomeEmpresa ?></span>
+                                <span class="text-monospace font-s font-weight-bold text-center text-uppercase"><?= $label_header ?></span>
                             </div>
                         </div>
                         <div class="row">

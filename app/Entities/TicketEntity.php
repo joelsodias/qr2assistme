@@ -19,32 +19,32 @@ class TicketEntity extends BaseEntity
 
     public function getParentUid()
     {
-       return $this->_getUuidField('parent_uid');
+       return $this->_getUuidField('ticket_parent_uid');
     }
 
     public function setParentUid(string $uuid)
     {
-       $this->_setUuidField('parent_uid',$uuid);
+       $this->_setUuidField('ticket_parent_uid',$uuid);
     } 
     
     public function getOwnerUid()
     {
-       return $this->_getUuidField('owner_uid');
+       return $this->_getUuidField('ticket_owner_uid');
     }
 
     public function setOwnerUid(string $uuid)
     {
-       $this->_setUuidField('owner_uid',$uuid);
+       $this->_setUuidField('ticket_owner_uid',$uuid);
     } 
     
     public function getExecutorUid()
     {
-       return $this->_getUuidField('executor_uid');
+       return $this->_getUuidField('ticket_executor_uid');
     }
 
     public function setExecutorUid(string $uuid)
     {
-       $this->_setUuidField('executor_uid',$uuid);
+       $this->_setUuidField('ticket_executor_uid',$uuid);
     } 
 
 }

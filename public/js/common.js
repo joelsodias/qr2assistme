@@ -19,7 +19,18 @@ $(function () {
             }, false);
         });
     })();
+
+    jQuery.validator.addMethod("notEqual", function(value, element, param) {
+        return this.optional(element) || value !== param;
+      }, "Favor preencher o campo!");
+
+
 });
+
+
+
+
+
 
 if (jQuery.fn.dataTableExt) {
     jQuery.extend(jQuery.fn.dataTableExt.oSort, {

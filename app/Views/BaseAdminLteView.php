@@ -105,10 +105,10 @@ class BaseAdminLteView extends BaseView {
 			. "<li class=\"nav-header\">$title</li>";
 	}
 
-	public function openCard(string $title = "")
+	public function openCard(string $title = "", string $extra_class = "")
 	{
 		return
-			"<div class=\"card\">"
+			"<div class=\"card $extra_class \">"
 			. "  <div class=\"card-header\">"
 			. "	<h3 class=\"card-title\">$title</h3>"
 			. "  </div>"
@@ -228,7 +228,8 @@ class BaseAdminLteView extends BaseView {
 					$controller->addLinkMenuItem("opcao15", "Atendentes", "#", "fas fa-headset"),
 				]),
 				$controller->addTreeViewMenuItem("opcao2", "FERRAMENTAS", "fas fa-tools", false, [
-					$controller->addLinkMenuItem("opcao21", "Gerar Etiquetas", "/admin/qrlabels", "fas fa-qrcode"),
+					$controller->addLinkMenuItem("opcao21", "Gerar Etiquetas", "/admin/printLabels", "fas fa-qrcode"),
+					$controller->addLinkMenuItem("opcao22", "Reimprimir Etiquetas", "/admin/reprintLabels", "fas fa-qrcode"),
 				]),
 			]);
 	}
@@ -261,6 +262,7 @@ class BaseAdminLteView extends BaseView {
 		$default_sidebar = $this->getSidebar($sidebarinfo);
 		
 		$defaultData = [
+			"pageTitle" => "Painel",
 			"layout" => "layouts/layout_adminlte",
 			"view" => $this,
 			"before_sidebar" => $default_before_sidebar,

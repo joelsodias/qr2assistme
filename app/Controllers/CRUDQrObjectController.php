@@ -41,7 +41,7 @@ class CRUDQrObjectController extends BaseAdminLteCRUDController
 			"delete_confirmation_message" => "Are you sure to delete this record?",
 
 			"dataset_key_fieldname" => "object_uid",
-			"dataset_hidden_fields" => $e->getFieldLabels(["owner_uid"]),
+			"dataset_hidden_fields" => $e->getFieldLabels(["object_owner_uid"]),
 			"dataset_visible_fields" => $e->getFieldLabels(["customer_name", "object_name", "object_serial", "object_model"]),
 			"page_title" => "Painel de Controle",
 			"page_subtitle" => "Painel de Controle",
@@ -69,7 +69,7 @@ class CRUDQrObjectController extends BaseAdminLteCRUDController
 
 		$builder = $qrobjModel->builder();
 
-		$builder->join("customer", "customer.customer_uid = qrobject.owner_uid", "left outer");
+		$builder->join("customer", "customer.customer_uid = qrobject.object_owner_uid", "left outer");
 
 		if (isset($get["columns"]) && count($get["columns"])) {
 			foreach ($get["columns"] as $key => $value) {
@@ -106,7 +106,7 @@ class CRUDQrObjectController extends BaseAdminLteCRUDController
 			$result[] =  [
 				"customer_name" => $value->customer_name,
 				"object_uid" => $value->object_uid,
-				"owner_uid" => $value->owner_uid,
+				"object_owner_uid" => $value->object_owner_uid,
 				"object_name" => $value->object_name,
 				"object_serial" => $value->object_serial,
 				"object_model" => $value->object_model,
@@ -166,7 +166,7 @@ class CRUDQrObjectController extends BaseAdminLteCRUDController
 			$record = [];
 
 			$record["object_uid"] =  $this->getNewUUidString();
-			$record["owner_uid"] = $this->getRequestParam("owner_uid");
+			$record["object_owner_uid"] = $this->getRequestParam("object_owner_uid");
 			$record["object_name"] = $this->getRequestParam("object_name");
 			$record["object_model"] = $this->getRequestParam("object_model");
 			$record["object_serial"] = $this->getRequestParam("object_serial");
@@ -232,7 +232,7 @@ class CRUDQrObjectController extends BaseAdminLteCRUDController
 				$old = $result[0];
 
 				$old->object_uid = $new_object_uid ?? $old->object_uid;
-				$old->owner_uid = $this->getRequestParam("owner_uid") ?? $old->owner_uid;
+				$old->object_owner_uid = $this->getRequestParam("object_owner_uid") ?? $old->object_owner_uid;
 				$old->object_name = $this->getRequestParam("object_name") ?? $old->object_name;
 				$old->object_serial = $this->getRequestParam("object_serial") ?? $old->object_serial;
 				$old->object_model = $this->getRequestParam("object_model") ?? $old->object_model;

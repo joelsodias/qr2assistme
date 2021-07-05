@@ -12,90 +12,12 @@ use DateTime;
 
 class AuthController extends BaseController
 {
+
+	protected $allowedProviders = ["google"];
+
 	public function index()
 	{
-		return redirect()->to('/admin/login');
-	}
-
-	protected function getCookieLoginInfo(string $key, string $section = null, string $provider = null)
-	{
-		$doGetCookie = function ($key) {
-			$doUnserialize = function ($cookie) {
-				$unserialized = @unserialize($cookie);
-				if ($unserialized === 'b:0;' || $unserialized !== false) {
-					return $unserialized;
-				} else {
-					return $cookie;
-				}
-			};
-
-
-			$cookie = get_cookie($key);
-			return $doUnserialize($cookie);
-		};
-
-		if (isset($section)) {
-			if (isset($provider)) {
-				return $doGetCookie('app_auth_' . $section . '_' . $provider . "_" . $key);
-			} else return $doGetCookie('app_auth_' . $section . '_' . $key);
-		} else return $doGetCookie('app_auth_' . $key);
-	}
-
-	protected function setCookieLoginInfo($value, string $section = null, string $provider = null, string $key = null)
-	{
-		$doSetCookie = function ($key, $value) {
-			return cookie($key, serialize($value));
-		};
-
-		if (isset($section)) {
-			if (isset($provider)) {
-				if (isset($key)) {
-					return $doSetCookie('app_auth_' . $section . '_' . $provider . "_" . $key, $value);
-				} else return $doSetCookie('app_auth_' . $section . '_' . $provider, $value);
-			} else return $doSetCookie('app_auth_' . $section, $value);
-		} else return $doSetCookie('app_auth', $value);
-	}
-
-	protected function clearCookieLoginInfo(string $section = null, string $provider = null)
-	{
-		return $this->setCookieLoginInfo(null, $section, $provider);
-	}
-
-	protected function getSessionLoginInfo(string $key, string $section = null, string $provider = null)
-	{
-		if (isset($section)) {
-			if (isset($provider)) {
-				return $_SESSION["auth"][$section][$provider][$key] ?? null;
-			} else return $_SESSION["auth"][$section][$key] ?? null;
-		} else return $_SESSION["auth"][$key];
-	}
-
-	protected function setSessionLoginInfo($value, string $section = null, string $provider = null, string $key = null)
-	{
-		if (isset($section)) {
-			if (isset($provider)) {
-				if (isset($key)) {
-					$_SESSION["auth"][$section][$provider][$key] = $value;
-				} else $_SESSION["auth"][$section][$provider] = $value;
-			} else $_SESSION["auth"][$section] = $value;
-		} else $_SESSION["auth"] = $value;
-		return true;
-	}
-
-	public function checkSessionLoggedOn(string $section, string $provider)
-	{
-		if (isset($section)) {
-			if (isset($provider)) {
-				return $this->getSessionLoginInfo("connected", $section, $provider);
-			}
-		}
-
-		return false;
-	}
-
-	protected function clearSessionLoginInfo(string $section = null, string $provider = null)
-	{
-		return $this->setSessionLoginInfo(null, $section, $provider);
+		return redirect()->to('/land');
 	}
 
 	protected function getGoogleLoginData(string $section = "default", array $params = ["force_renew" => false, "redir_url" => "/google/login", "client_id" => "", "client_secret" => ""])
@@ -128,7 +50,7 @@ class AuthController extends BaseController
 		$p = CustomHelper::array_merge_recursive_distinct($paramsDefault, $params);
 
 		if ($p["client_id"] == "" || $p["client_secret"] == "") {
-			throw new Exception("No required credentials informed in \$params parameter");
+			throw new Exception("No credentials informed in \$params parameter");
 		}
 
 		$client = new \Google\Client();
@@ -201,73 +123,117 @@ class AuthController extends BaseController
 
 
 
-	public function AttendeeChatLogin()
+	public function AttendeeLogin($key)
 	{
 
-		$data = null;
-		$section = "attendee_chat";
-		$googleData = $this->getGoogleLoginData($section, [
-			"force_renew" => false,
-			"redir_url" => getenv("app.baseURL") . "/chat/login",
-			//"client_id" => "718315869853-2cma32pj46u5jtj54movvktpdmkiivie.apps.googleusercontent.com",
-			"client_id" =>  getenv("app.chat.google.client_id"),
-			"client_secret" => getenv("app.chat.google.client_secret"),
-		]);
+		if (in_array($key, ["chat", "schedule"]) || in_array($key, $this->allowedProviders)) {
 
+			$provider = null;
+			$data = null;
+			$section = "attendee";
+			$service = null;
 
-		if ($this->checkSessionLoggedOn($section, "google")) {
-
-			$model = new \App\Models\ChatUserModel();
-			$builder = $model->builder();
-			$user = $this->getSessionLoginInfo("user", $section, "google");
-			$token = $this->getSessionLoginInfo("token", $section, "google");
-
-			$builder->where("google_email", $user["email"]);
-			$builder->orWhere("facebook_email", $user["email"]);
-			$r = $builder->get(1)->getResult("\App\Entities\ChatUserEntity");
-
-			if ($r) {
-
-				$e = $r[0];
-
-				if ($user["givenName"] . " " . $user["familyName"]) {
-
-					$e->google_avatar = $user["picture"];
-					$e->google_token = serialize($token);
-					$e->updated_at = new Time('now');
-					$model->save($e);
-				}
+			if (in_array($key, ["chat", "schedule"])) {
+				$this->setSessionLoginInfo($key, "service");
+				$service = $key;
 			} else {
-				$e = new \App\Entities\ChatUserEntity();
-
-				$e->chat_user_uid = $this->getNewUUidString();
-				$e->user_type = "attendee";
-				$e->google_token = serialize($token);
-				$e->google_email = $user["email"];
-				$e->google_avatar = $user["picture"];
-				$e->user_avatar = $user["picture"];
-				$e->user_name =  $user["givenName"] . " " . $user["familyName"];
-				$e->google_name =  $user["givenName"] . " " . $user["familyName"];
-				$e->is_guest = "N";
-				$model->insert($e);
+				$service = $this->getSessionLoginInfo("service");
 			}
 
-			return redirect()->to("/chat/front/" . $e->chat_user_uid);
-		} else {
+			if (in_array($key, $this->allowedProviders)) {
+				$this->setSessionLoginInfo($key, "provider");
+				$provider = $key;
+			} else {
+				$provider = $this->getSessionLoginInfo("provider") ?? ($this->getSessionLoginInfo("connected", $section, "google")) ? "google" : null ;
+				$this->setSessionLoginInfo($provider, "provider");
+			}
 
-			$data = [
-				"layout" => "layouts/layout_bootstrap_clear_noresize",
-				"google" => $googleData,
-			];
+			$googleData = $this->getGoogleLoginData($section, [
+				"force_renew" => false,
+				"redir_url" => getenv("app.baseURL") . "attendee/login/google",
 
-			return $this->view("content/chat/chat_attendee_login_view",  $data);
-		}
+				"client_id" =>  getenv("app.chat.google.client_id"),
+				"client_secret" => getenv("app.chat.google.client_secret"),
+			]);
+
+			if (isset($provider) && $this->checkSessionLoggedOn($section, $provider)) {
+
+
+				// register user
+
+				$user = $this->getSessionLoginInfo("user", $section, $provider);
+				$token = $this->getSessionLoginInfo("token", $section, $provider);
+	
+				$model = new \App\Models\ChatUserModel();
+				$builder = $model->builder();
+	
+				$builder->where($provider."_email", $user["email"]);
+				$r = $builder->get(1)->getResult("\App\Entities\ChatUserEntity");
+	
+				if ($r) {
+	
+					$e = $r[0];
+	
+					if ($user["givenName"] . " " . $user["familyName"]) {
+	
+						$e->{$provider . "_avatar"} = $user["picture"];
+						$e->{$provider . "_token"} = serialize($token);
+						$e->updated_at = new Time('now');
+						$model->save($e);
+
+					}
+				} else {
+					$e = new \App\Entities\ChatUserEntity();
+	
+					$e->chat_user_uid = $this->getNewUUidString();
+					$e->user_type = "attendee";
+					$e->{$provider . "_email"} = $user["email"];
+					$e->{$provider . "_name"} =  $user["givenName"] . " " . $user["familyName"];
+					$e->{$provider . "_token"} = serialize($token);
+					$e->{$provider . "_avatar"} = $user["picture"];
+					$e->user_avatar = $user["picture"];
+					$e->user_name =  $user["givenName"] . " " . $user["familyName"];
+					$e->is_guest = "N";
+					$model->insert($e);
+				}
+
+				$this->setSessionLoginInfo($e, $section, "user");
+
+
+
+
+
+
+				switch ($service) {
+					case "chat":
+						return redirect()->to("/attendee/chat/identified");
+						break;
+					case "schedule":
+						return redirect()->to("/attendee/schedule/identified");
+						break;
+					default:
+						return redirect()->to("/land");
+						break;
+				}
+			} else {
+
+				$data = [
+					"pageTitle" => "Login",
+					"layout" => "layouts/layout_bootstrap_clear_noresize",
+					"google" => $googleData,
+				];
+
+				return $this->view("content/chat/chat_attendee_login_view",  $data);
+			}
+		} else return redirect()->to("/land");
 	}
 
-	public function logoff()
+	public function getAtendeeLogout()
 	{
-		//
-		return "<h1>Logoff</h1>";
+
+		$this->setSessionLoginInfo(null, "attendee");
+
+		return redirect()->to("/land");
 	}
 
 
@@ -279,6 +245,7 @@ class AuthController extends BaseController
 
 		$data = [
 			"saved_email" => $email,
+			"pageTitle" => "Login",
 			"layout" => "layouts/layout_adminlte_clear",
 			"add_body_class" => "login-page"
 		];
@@ -294,7 +261,7 @@ class AuthController extends BaseController
 
 		$userModel = new \App\Models\UserModel();
 		$user = $userModel->doLogin($email, $password);
-		
+
 		if (isset($user)) {
 			$workerModel = new \App\Models\WorkerModel();
 			$worker = $workerModel->getWorker($user->worker_uid);
@@ -304,7 +271,7 @@ class AuthController extends BaseController
 			$this->setSessionLoginInfo($user, "admin", "local", "user");
 			$this->setSessionLoginInfo($email, "admin", "local", "email");
 			$cookie = $this->setCookieLoginInfo($email, "admin", "local", "email");
-		
+
 			return redirect()->to("/admin");
 		} else {
 			return redirect()->to("/admin/login");

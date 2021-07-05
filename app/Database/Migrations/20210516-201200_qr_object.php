@@ -22,7 +22,7 @@ class QrObjectTable extends BaseTableMigration
                 "constraint"     => 36,
                 "null" => false
             ],
-            'owner_uid'          => [
+            'object_owner_uid'          => [
                 'type'           => 'CHAR',
                 "constraint"     => 36,
                 'null'       => true,
@@ -46,6 +46,11 @@ class QrObjectTable extends BaseTableMigration
                 "null" => true,
                 "constraint"     => 250,
             ],
+            "object_brand" => [
+                "type" => "VARCHAR",
+                "null" => true,
+                "constraint"     => 250,
+            ],
             "object_voltage" => [
                 "type" => "VARCHAR",
                 "null" => true,
@@ -55,13 +60,27 @@ class QrObjectTable extends BaseTableMigration
                 "type" => "TEXT",
                 "null" => true
             ],
-            
-
+            "object_instalation_date" => [
+                "type" => "TIMESTAMP",
+                "null" => true,
+            ],
+            "object_last_review_date" => [
+                "type" => "TIMESTAMP",
+                "null" => true,
+            ],
+            "object_next_review_date" => [
+                "type" => "TIMESTAMP",
+                "null" => true,
+            ],
+            "object_maker_warranty_exp_date" => [
+                "type" => "TIMESTAMP",
+                "null" => true,
+            ],
         ]);
 
         $this->forge->addPrimaryKey("id");
         $this->forge->addKey("object_uid",false,true);
-        $this->forge->addKey("owner_uid");
+        $this->forge->addKey("object_owner_uid");
         $this->forge->createTable("qrobject");
     }
 

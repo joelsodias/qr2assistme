@@ -55,6 +55,7 @@ class AdminController extends BaseAdminLteController
 	{
 
 		$data = [
+			"pageTitle" => "Dashboard",
 			"layout" => "layouts/layout_adminlte"
 		];
 

@@ -154,8 +154,8 @@ class CRUDQrObjectView extends BaseAdminLteCRUDView {
 					</button>
 				</div>
 				<input required disabled name="customer_name" id="<?= $form_method ?>-field-customer_name" type="text" class="form-control" placeholder="Utilize a busta para selecionar o proprietário" aria-label="" aria-describedby="">
-				<input name="owner_uid" id="<?= $form_method ?>-field-owner_uid" type="hidden">
-				<input name="old-owner_uid" id="<?= $form_method ?>-field-old-owner_uid" type="hidden">
+				<input name="object_owner_uid" id="<?= $form_method ?>-field-object_owner_uid" type="hidden">
+				<input name="old-object_owner_uid" id="<?= $form_method ?>-field-old-object_owner_uid" type="hidden">
 
 			</div>
 		</div>

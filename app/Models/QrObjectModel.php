@@ -9,6 +9,16 @@ class QrObjectModel extends BaseModel
     protected $table      = 'qrobject';
     protected $returnType     = 'App\Entities\QrObjectEntity';
 
+    public function getObject(string $object_uid = null)
+    {
+        $builder = $this->builder();
 
+        $builder->where("object_uid", $object_uid);
+        
+        $r = $builder->get(1)->getResult();
 
+        if (isset($r) && count($r)) {
+            return $r[0];
+        } else return null;
+    }
 }

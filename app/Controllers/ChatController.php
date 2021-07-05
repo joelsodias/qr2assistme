@@ -13,7 +13,6 @@ class ChatController extends BaseAdminLteController
 
 	public function chatAttendeeLogin()
 	{
-
 	}
 
 	public function chatAttendeeGuest()
@@ -23,9 +22,55 @@ class ChatController extends BaseAdminLteController
 		$e = $userModel->createChatUser("attendee", "S");
 
 		$sessionModel = new \App\Models\ChatSessionModel();
-		$session = $sessionModel->createSession($e->chat_user_uid);
+		$session = $sessionModel->createChatSession($e->chat_user_uid);
 
-		return redirect()->to("/chat/front/" . $e->chat_user_uid);
+		return redirect()->to("/attendee/chat/front/" . $e->chat_user_uid);
+	}
+
+	public function chatAttendeeIdentified()
+	{
+		$section = "attendee";
+		$provider = $this->getSessionLoginInfo("provider");
+
+		if ($provider && $this->checkSessionLoggedOn($section, $provider)) {
+
+			$model = new \App\Models\ChatUserModel();
+			$builder = $model->builder();
+			$user = $this->getSessionLoginInfo("user", $section, $provider);
+			$token = $this->getSessionLoginInfo("token", $section, $provider);
+
+			$builder->where("google_email", $user["email"]);
+			$builder->orWhere("facebook_email", $user["email"]);
+			$r = $builder->get(1)->getResult("\App\Entities\ChatUserEntity");
+
+			if ($r) {
+
+				$e = $r[0];
+
+				if ($user["givenName"] . " " . $user["familyName"]) {
+
+					$e->google_avatar = $user["picture"];
+					$e->google_token = serialize($token);
+					$e->updated_at = new Time('now');
+					$model->save($e);
+				}
+			} else {
+				$e = new \App\Entities\ChatUserEntity();
+
+				$e->chat_user_uid = $this->getNewUUidString();
+				$e->user_type = "attendee";
+				$e->google_token = serialize($token);
+				$e->google_email = $user["email"];
+				$e->google_avatar = $user["picture"];
+				$e->user_avatar = $user["picture"];
+				$e->user_name =  $user["givenName"] . " " . $user["familyName"];
+				$e->google_name =  $user["givenName"] . " " . $user["familyName"];
+				$e->is_guest = "N";
+				$model->insert($e);
+			}
+
+			return redirect()->to("/attendee/chat/front/" . $e->chat_user_uid);
+		} else return redirect()->to("/attendee/login/chat");
 	}
 
 
@@ -50,6 +95,7 @@ class ChatController extends BaseAdminLteController
 
 
 				$data = [
+					"pageTitle" => "Chat",
 					"layout" => "layouts/layout_bootstrap_clear_noresize",
 					"attendee" => $attendee,
 					"session" => $session,
@@ -77,10 +123,11 @@ class ChatController extends BaseAdminLteController
 				if ($sessionsObj) {
 					$data = [
 						//"layout" => "layouts/layout_bootstrap_clear_noresize",
+						"pageTitle" => "Chat (Atendente)",
 						"attendant" => $attendant,
 						"sessions" => $sessionsObj,
 					];
-					
+
 					return $this->view("content/chat/chat_attendant_view",  $data);
 				} else {
 					return "Error trying to stablish an attendant chat session";
@@ -717,10 +764,9 @@ class ChatController extends BaseAdminLteController
 										$sessionModel->save($session);
 
 										$sessionDetails = $sessionModel->getCompleteChatSessionsInfo(["attendant_uid" => $json->current_usuid]);
-
 									}
 								}
-							} 
+							}
 
 							$sessionDetails = $sessionDetails ?? $sessionModel->getCompleteChatSessionsInfo(["session_uid" => $session->session_uid]);
 
@@ -745,20 +791,17 @@ class ChatController extends BaseAdminLteController
 						$e = $messageModel->getUnreadMessagesByUser($json->current_uuid, $json->current_suid);
 
 						if ($e) {
-                            foreach($e as $key => $item ) {
+							foreach ($e as $key => $item) {
 								if ($item->sync_status == "read") {
 									$result[] = [
-										"read" => [ "message_uid" => $item->message_uid ]
+										"read" => ["message_uid" => $item->message_uid]
 									];
 								} else {
 									$result[] = [
 										"new" => $item
 									];
-								} 
-
-							} 
-
-
+								}
+							}
 						}
 					}
 				}

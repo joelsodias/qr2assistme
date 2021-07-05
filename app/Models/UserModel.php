@@ -12,7 +12,7 @@ class UserModel extends BaseModel
 
    public function doLogin(string $email, string $password)
    {
-      $r = $this->where("user_email", $email)->findAll();
+      $r = $this->where("user_email", $email)->find();
 
       if (isset($r) && count($r)) {
          if (password_verify($password, $r[0]->user_password)) {

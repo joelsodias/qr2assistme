@@ -28,7 +28,7 @@ class ScheduleTable extends BaseTableMigration
             'worker_uid'         => [
                 'type'              => 'CHAR',
                 'constraint'        => 36,
-                'null'              => false,
+                'null'              => true,
             ],
 
             'object_uid'         => [
@@ -49,8 +49,14 @@ class ScheduleTable extends BaseTableMigration
                 'null'              => true,
             ],
 
+            'chat_user_uid'         => [
+                'type'              => 'CHAR',
+                'constraint'        => 36,
+                'null'              => true,
+            ],
+
             'schedule_status'         => [
-                'type'              => 'ENUM("daft","scheduled","rescheduled","canceled","closed")',
+                'type'              => 'ENUM("daft","requested","scheduled","rescheduled","canceled","closed")',
                 'null'              => false,
             ],
 

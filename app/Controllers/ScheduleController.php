@@ -70,7 +70,7 @@ class ScheduleController extends BaseAdminLteController
 					$fileModel = new \App\Models\FileModel();
 					$f = new \App\Entities\FileEntity();
 
-					$f->file_uid = $this->getNewUUidString(); 
+					$f->file_uid = $this->getNewUUidString();
 					$f->worker_uid = $s->worker_uid;
 					$f->schedule_uid = $s->schedule_uid;
 					$f->object_uid = $s->object_uid;
@@ -100,5 +100,81 @@ class ScheduleController extends BaseAdminLteController
 				}
 			}
 		} else throw PageNotFoundException::forPageNotFound();
+	}
+
+
+	public function getIdentifiedAttendeeScheduler()
+	{
+
+		$section = "attendee";
+		$provider = $this->getSessionLoginInfo("provider");
+		$user = $this->getSessionLoginInfo("user", $section);
+
+		if ($provider && $this->checkSessionLoggedOn($section, $provider)) {
+
+			$data = [
+				"pageTitle" => "Agendamento",
+				"layout" => "layouts/layout_bootstrap_clear_noresize",
+				"user_name" => $user->user_name ?? null,
+			];
+
+			return $this->view("content/schedule_attendee_view", $data);
+		} else return redirect()->to("/attendee/login/schedule");
+	}
+
+	public function postIdentifiedAttendeeScheduler()
+	{
+
+		$section = "attendee";
+		$provider = $this->getSessionLoginInfo("provider");
+
+		if ($provider && $this->checkSessionLoggedOn($section, $provider)) {
+
+			$scheduleDate = $this->getRequestParam("schedule");
+			$scheduleService = $this->getRequestParam("schedule_service");
+			$schedulePhone = $this->getRequestParam("schedule_phone");
+			$scheduleDescription = $this->getRequestParam("schedule_description");
+			$scheduleContact = $this->getRequestParam("schedule_contact");
+
+			$user = $this->getSessionLoginInfo("user", $section, $provider);
+			$token = $this->getSessionLoginInfo("token", $section, $provider);
+
+			$model = new \App\Models\ChatUserModel();
+			$builder = $model->builder();
+
+			$builder->where($provider . "_email", $user["email"]);
+			$u = $builder->get(1)->getResult("\App\Entities\ChatUserEntity");
+
+			$scheduleModel = new \App\Models\ScheduleModel();
+			$s = new \App\Entities\ScheduleEntity();
+
+			$s->chat_user_uid = $u[0]->chat_user_uid ?? null;
+			$s->schedule_uid = $this->getNewUUidString();
+			$s->object_uid = $_SESSION["QR"]["object"]->object_uid ?? null;
+			$s->customer_uid = $_SESSION["QR"]["object"]->customer_uid ?? null;
+
+			$s->schedule_object_name = $_SESSION["QR"]["object"]->object_name ?? null;
+			$s->schedule_service_name = $scheduleService ?? null;
+			$s->schedule_contact_name = $scheduleService ?? null;
+			$s->schedule_status = 'requested';
+			$s->schedule_date = str_replace("-T", " 13:00", str_replace("-M", " 09:00", $scheduleDate));
+
+			$r = $scheduleModel->insert($s);
+
+
+
+			$data = [
+				"pageTitle" => "Agendamento",
+				"layout" => "layouts/layout_bootstrap_clear_noresize",
+				"schedule" => $s,
+				"scheduleDate" =>  $scheduleDate,
+				"scheduleService" => $scheduleService,
+				"schedulePhone" => $schedulePhone,
+				"scheduleDescription" => $scheduleDescription,
+				"scheduleContact" => $scheduleContact,
+			];
+
+			return $this->view("content/schedule_attendee_success_view", $data);
+		} else return redirect()->to("/attendee/login/schedule");
 	}
 }

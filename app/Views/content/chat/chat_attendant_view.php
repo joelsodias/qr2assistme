@@ -1,13 +1,13 @@
 <?= $this->extend(($layout ?? $_SERVER["app.layout.folder"] . "/" . $_SERVER["app.layout.template"])) ?>
 
 <?= $this->section('custom_css') ?>
-<link rel="stylesheet" href="/chatjs/chat_common.css">
+<link rel="stylesheet" href="/js/chatjs/chat_common.css">
 <?= $this->endSection() ?>
 
 
 <?= $this->section('custom_scripts') ?>
-<script src="/chatjs/chat_common.js" type="text/javascript"></script>
-<script src="/chatjs/chat_sync_back.js" type="text/javascript"></script>
+<script src="/js/chatjs/chat_common.js" type="text/javascript"></script>
+<script src="/js/chatjs/chat_sync_back.js" type="text/javascript"></script>
 <script>
     var current_SUID = "<?= $sessions[0]->session_uid ?>"
     var current_UUID = "<?= $attendant->chat_user_uid ?>"

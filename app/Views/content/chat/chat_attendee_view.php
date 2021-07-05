@@ -7,8 +7,8 @@
 
 <?= $this->section('custom_scripts') ?>
 
-<script src="/chatjs/chat_common.js" type="text/javascript"></script>
-<script src="/chatjs/chat_sync_client.js" type="text/javascript"></script>
+<script src="/js/chatjs/chat_common.js" type="text/javascript"></script>
+<script src="/js/chatjs/chat_sync_client.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     var current_SUID = "<?= $session->session_uid ?>"

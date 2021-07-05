@@ -165,4 +165,85 @@ class BaseController extends Controller
 	}
 
 
+	protected function getCookieLoginInfo(string $key, string $section = null, string $provider = null)
+	{
+		$doGetCookie = function ($key) {
+			$doUnserialize = function ($cookie) {
+				$unserialized = @unserialize($cookie);
+				if ($unserialized === 'b:0;' || $unserialized !== false) {
+					return $unserialized;
+				} else {
+					return $cookie;
+				}
+			};
+
+
+			$cookie = get_cookie($key);
+			return $doUnserialize($cookie);
+		};
+
+		if (isset($section)) {
+			if (isset($provider)) {
+				return $doGetCookie('app_auth_' . $section . '_' . $provider . "_" . $key);
+			} else return $doGetCookie('app_auth_' . $section . '_' . $key);
+		} else return $doGetCookie('app_auth_' . $key);
+	}
+
+	protected function setCookieLoginInfo($value, string $section = null, string $provider = null, string $key = null)
+	{
+		$doSetCookie = function ($key, $value) {
+			return cookie($key, serialize($value));
+		};
+
+		if (isset($section)) {
+			if (isset($provider)) {
+				if (isset($key)) {
+					return $doSetCookie('app_auth_' . $section . '_' . $provider . "_" . $key, $value);
+				} else return $doSetCookie('app_auth_' . $section . '_' . $provider, $value);
+			} else return $doSetCookie('app_auth_' . $section, $value);
+		} else return $doSetCookie('app_auth', $value);
+	}
+
+	protected function clearCookieLoginInfo(string $section = null, string $provider = null)
+	{
+		return $this->setCookieLoginInfo(null, $section, $provider);
+	}
+
+	protected function getSessionLoginInfo(string $key, string $section = null, string $provider = null)
+	{
+		if (isset($section)) {
+			if (isset($provider)) {
+				return $_SESSION["auth"][$section][$provider][$key] ?? null;
+			} else return $_SESSION["auth"][$section][$key] ?? null;
+		} else return $_SESSION["auth"][$key] ?? null;
+	}
+
+	protected function setSessionLoginInfo($value, string $section = null, string $provider = null, string $key = null)
+	{
+		if (isset($section)) {
+			if (isset($provider)) {
+				if (isset($key)) {
+					$_SESSION["auth"][$section][$provider][$key] = $value;
+				} else $_SESSION["auth"][$section][$provider] = $value;
+			} else $_SESSION["auth"][$section] = $value;
+		} else $_SESSION["auth"] = $value;
+		return true;
+	}
+
+	public function checkSessionLoggedOn(string $section, string $provider)
+	{
+		if (isset($section)) {
+			if (isset($provider)) {
+				return $this->getSessionLoginInfo("connected", $section, $provider);
+			}
+		}
+
+		return false;
+	}
+
+	protected function clearSessionLoginInfo(string $section = null, string $provider = null)
+	{
+		return $this->setSessionLoginInfo(null, $section, $provider);
+	}
+
 }

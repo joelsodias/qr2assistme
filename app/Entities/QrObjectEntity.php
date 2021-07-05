@@ -11,6 +11,7 @@ class QrObjectEntity extends BaseEntity
    protected $datalabels = [
       "customer_name" => "Proprietário",
       "object_name" => "Nome",
+      "object_brand" => "Marca",
       "object_serial" => "Número Serial",
       "object_model" => "Modelo",
       "object_voltage" => "Voltagem",
@@ -18,7 +19,10 @@ class QrObjectEntity extends BaseEntity
       "object_obs" => "Observações",
       "created_at" => "Criação",
       "object_uid" => "Id de Objeto",
-      "owner_uid" => "Id do Propritário",
+      "object_owner_uid" => "Id do Propritário",
+      "object_next_review" => "Próxima Revisão",
+      "object_maker_warranty_exp_date" => "Expiração da Garantia de Fábrica",
+      "object_service_warranty_exp_date" => "Expiração da Garantia do Último Serviço",
    ];
    
 
@@ -34,11 +38,11 @@ class QrObjectEntity extends BaseEntity
 
     public function getOwnerUid()
     {
-       return $this->_getUuidField('owner_uid');
+       return $this->_getUuidField('object_owner_uid');
     }
 
     public function setOwnerUid(string $uuid)
     {
-       $this->_setUuidField('owner_uid',$uuid);
+       $this->_setUuidField('object_owner_uid',$uuid);
     } 
 }

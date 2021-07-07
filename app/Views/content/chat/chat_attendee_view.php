@@ -1,7 +1,7 @@
 <?= $this->extend(($layout ?? $_SERVER["app.layout.folder"] . "/" . $_SERVER["app.layout.template"])) ?>
 
 <?= $this->section('custom_css') ?>
-<link rel="stylesheet" href="/chatjs/chat_common.css">
+<link rel="stylesheet" href="/js/chatjs/chat_common.css">
 <?= $this->endSection() ?>
 
 
@@ -17,6 +17,7 @@
     $(document).ready(function() {
 
     });
+    
 </script>
 <?= $this->endSection() ?>
 
@@ -30,7 +31,8 @@
             <div class="w-100">Conversa com AIRCON SERVICES</div>
             <div>
                 <a href="" class="">
-                    <img class="attendee-avatar" src="<?= $attendee->google_avatar ?>">
+                    <!-- <img class="attendee-avatar" src="<?= $attendee->google_avatar ?>"> -->
+                    <img class="attendee-avatar" src="/images/avatar/attendee.png">
                 </a>
             </div>
         </div>

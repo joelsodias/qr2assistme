@@ -34,7 +34,7 @@ const MSG_STATUS = {
 function refreshSessionData(session) {
     if (session) {
         $(".attendee-name").text(session.attendee_name);
-        $(".attendee-avatar").attr("src", session.attendee_avatar);
+        //$(".attendee-avatar").attr("src", session.attendee_avatar);
         window.session_data = session
     }
 }
@@ -102,9 +102,10 @@ function createMessage(container, text = "", status = MSG_STATUS.NONE, clientId 
 
     var html =
         "<div class='chat-message " + status.direction + "' id='chat-message-" + clientId + "' clientid='" + clientId + "' serverid='" + serverId + "'>" +
-        ((avatar != "") ?
+        ((avatar != "" && avatar != null && avatar != "null") ?
+            //"<img class='chat-message-avatar' src='" + avatar + "'>" :
             "<img class='chat-message-avatar' src='" + avatar + "'>" :
-            "<img class='chat-message-avatar' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='>"
+            "<img class='chat-message-avatar' src='/images/avatar/default.png'>"
         ) +
         "<div class='chat-message-text'>" + text +
         "<i class='chat-message-status " + status.icon + "' title='" + status.title + "'></i>" +
@@ -248,7 +249,7 @@ function forcePing() {
     if (last_sync_timestamp) {
         var now = new Date()
         var date = new Date(last_sync_timestamp * 1000);
-
+        //last_sync_timestamp = now 
         // console.log("check ping")
         // console.log(last_sync_timestamp)
         // console.log(now);

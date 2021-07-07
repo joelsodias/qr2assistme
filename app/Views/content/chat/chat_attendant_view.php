@@ -36,7 +36,7 @@
 
             <?php for ($i = 0; $i < count($sessions); $i++) : ?>
                 <div id="chat-session-<?= $sessions[$i]->session_uid ?>" class="chat-session d-flex border-bottom">
-                    <img class="session-avatar" src="https://source.unsplash.com/300x300/?face&<?= $i ?>">
+                    <img class="session-avatar" src="/images/avatar/attendee.png">
 
                     <div class="details w-100 d-flex flex-column justify-content-center ">
                         <div class="details-top d-flex">
@@ -59,7 +59,7 @@
     <div id="chat-right" class="col-8 ">
         <div id="chat-right-top" class="d-flex bg-light border-bottom p-2 flex-row justify-content-between align-items-center">
             <div class="attendee-profile">
-                <img class="attendee-avatar" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+                <img class="attendee-avatar" src="/images/avatar/attendee.png">
             </div>
             <div class="attendee-name w-100"><?= $sessions[0]->attendee_name ?></div>
             <div>

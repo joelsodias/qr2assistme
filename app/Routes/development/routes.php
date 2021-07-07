@@ -31,7 +31,10 @@ $routes->group('admin', ['filter' => 'ssl+auth:admin'], function ($routes) {
 
     $routes->get('chat/(:segment)', 'ChatController::chatAttendant/$1');
     
-    $routes->get('dashboard', 'AdminController::dashboard');
+    $routes->get('schedule', 'AdminController::notImplemented');
+    $routes->get('dashboard', 'AdminController::notImplemented');
+    $routes->get('worker/attendant', 'AdminController::notImplemented');
+    $routes->get('worker/field', 'AdminController::notImplemented');
 
     $routes->get('qrobject', 'CRUDQrObjectController::index');
     $routes->get('qrobject/list', 'CRUDQrObjectController::getList');
@@ -60,17 +63,21 @@ $routes->group('admin/api', function ($routes) {
 
 
 $routes->group('/attendee', ['filter' => 'ssl'], function ($routes) {
-
+     // /attendee/login/chat/facebook/uri
+    $routes->get('login/(:segment)/(:segment)/(:segment)', 'AuthController::redirectProviderLogin/$1/$2/$3', );
     $routes->get('login/(:segment)', 'AuthController::AttendeeLogin/$1', );
     $routes->get('logout', 'AuthController::getAtendeeLogout', );
 
-    $routes->group('chat', ['filter' => 'ssl'], function ($routes) {
+    $routes->get('finish', 'ScheduleController::finishAttendeeProcess', );
+
+    $routes->group('chat', ['filter' => 'ssl+auth:attendee'], function ($routes) {
         $routes->get('guest', 'ChatController::chatAttendeeGuest',);
         $routes->get('identified', 'ChatController::chatAttendeeIdentified',);
         $routes->get('front/(:segment)', 'ChatController::chatAttendee/$1');
     });
 
-    $routes->group('schedule', ['filter' => 'ssl'], function ($routes) {
+    $routes->group('schedule', ['filter' => 'ssl+auth:attendee'], function ($routes) {
+        $routes->get('show/(:segment)', 'ScheduleController::showIdentifiedAttendeeSchedule/$1',);
         $routes->get('identified', 'ScheduleController::getIdentifiedAttendeeScheduler',);
         $routes->post('identified', 'ScheduleController::postIdentifiedAttendeeScheduler',);
     });

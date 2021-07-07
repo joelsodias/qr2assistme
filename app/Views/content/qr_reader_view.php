@@ -179,9 +179,12 @@
 
     var scanResult = async function(result) {
         stopScan();
-        var b64 = B64.encode(result);
-        alert("encontrei: " + b64);
-        doPost(b64);
+
+        window.location.href = result;
+
+        // var b64 = B64.encode(result);
+        // alert("encontrei: " + b64);
+        // doPost(b64);
     }
 
     const scanner = new QrScanner(videoElement, result => scanResult(result), error => {

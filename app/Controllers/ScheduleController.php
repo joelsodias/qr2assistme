@@ -6,6 +6,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 
 use function PHPUnit\Framework\directoryExists;
+use App\Entities\ScheduleEntity;
 
 class ScheduleController extends BaseAdminLteController
 {
@@ -113,7 +114,7 @@ class ScheduleController extends BaseAdminLteController
 		if ($provider && $this->checkSessionLoggedOn($section, $provider)) {
 
 			$data = [
-				"pageTitle" => "Agendamento",
+				"page_title" => "Agendamento",
 				"layout" => "layouts/layout_bootstrap_clear_noresize",
 				"user_name" => $user->user_name ?? null,
 			];
@@ -155,16 +156,40 @@ class ScheduleController extends BaseAdminLteController
 
 			$s->schedule_object_name = $_SESSION["QR"]["object"]->object_name ?? null;
 			$s->schedule_service_name = $scheduleService ?? null;
-			$s->schedule_contact_name = $scheduleService ?? null;
+			$s->schedule_contact_name = $scheduleContact ?? null;
+			$s->schedule_contact_phone = $schedulePhone ?? null;
+			$s->schedule_description = $scheduleDescription ?? null;
 			$s->schedule_status = 'requested';
 			$s->schedule_date = str_replace("-T", " 13:00", str_replace("-M", " 09:00", $scheduleDate));
 
 			$r = $scheduleModel->insert($s);
 
+			return redirect()->to("/attendee/schedule/show/" . $s->schedule_uid);
+		} else return redirect()->to("/attendee/login/schedule");
+	}
 
+	public function showIdentifiedAttendeeSchedule($schedule_uid)
+	{
+
+		$scheduleModel = new \App\Models\ScheduleModel();
+
+		$builder = $scheduleModel->builder();
+
+		$builder->where("schedule_uid", $schedule_uid);
+		$r =  $builder->get(1)->getResult("\App\Entities\ScheduleEntity");
+
+		if ($r && is_array($r) && count($r) > 0) {
+
+			$s = $r[0];
+
+			$scheduleDate = $s->schedule_date;
+			$scheduleService = $s->schedule_service_name;
+			$scheduleContact = $s->schedule_contact_name;
+			$scheduleDescription = $s->schedule_description;
+			$schedulePhone = $s->schedule_contact_phone;
 
 			$data = [
-				"pageTitle" => "Agendamento",
+				"page_title" => "Agendamento",
 				"layout" => "layouts/layout_bootstrap_clear_noresize",
 				"schedule" => $s,
 				"scheduleDate" =>  $scheduleDate,
@@ -175,6 +200,15 @@ class ScheduleController extends BaseAdminLteController
 			];
 
 			return $this->view("content/schedule_attendee_success_view", $data);
-		} else return redirect()->to("/attendee/login/schedule");
+		} 
 	}
+
+	public function finishAttendeeProcess() {
+		$data = [
+			"page_title" => "Agendamento",
+			"layout" => "layouts/layout_bootstrap_clear_noresize",
+		];
+		return $this->view("content/schedule_attendee_finish_view", $data);
+	}
+
 }

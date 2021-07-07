@@ -218,18 +218,19 @@ class BaseAdminLteView extends BaseView {
 
 			//. $controller->addSidebarSearchForm()
 			. $controller->addSidebarMenu("menu1", [
-				$controller->addLinkMenuItem("opcao12", "Atendimentos", "#", "fas fa-comments"),
+				$controller->addLinkMenuItem("opcao12", "Atendimentos", "/admin/chat/" , "fas fa-comments"),
+				//$controller->addLinkMenuItem("opcao12", "Atendimentos", "/admin/chat/" .  $data->user->worker_uid ?? "", "fas fa-comments"),
 				//$controller->addTextMenuItem("CADASTROS", "far fa-circle"),
 				$controller->addTreeViewMenuItem("opcao1", "BASES", "fas fa-database", false, [
-					$controller->addLinkMenuItem("opcao11", "Agendamentos", "#", "far fa-calendar-check"),
+					$controller->addLinkMenuItem("opcao11", "Agendamentos", "/admin/schedule", "far fa-calendar-check"),
 					$controller->addLinkMenuItem("opcao12", "Clientes", "/admin/customer", "fas fa-user"),
 					$controller->addLinkMenuItem("opcao13", "Equipamentos de Clientes", "/admin/qrobject", "fas fa-qrcode"),
-					$controller->addLinkMenuItem("opcao14", "Técnicos", "#", "fas fa-user-cog"),
-					$controller->addLinkMenuItem("opcao15", "Atendentes", "#", "fas fa-headset"),
+					$controller->addLinkMenuItem("opcao14", "Técnicos", "/admin/worker/field", "fas fa-user-cog"),
+					$controller->addLinkMenuItem("opcao15", "Atendentes", "/admin/worker/attendant", "fas fa-headset"),
 				]),
 				$controller->addTreeViewMenuItem("opcao2", "FERRAMENTAS", "fas fa-tools", false, [
-					$controller->addLinkMenuItem("opcao21", "Gerar Etiquetas", "/admin/printLabels", "fas fa-qrcode"),
-					$controller->addLinkMenuItem("opcao22", "Reimprimir Etiquetas", "/admin/reprintLabels", "fas fa-qrcode"),
+					$controller->addLinkMenuItem("opcao21", "Gerar Novas Etiquetas", "/admin/printLabels", "fas fa-qrcode"),
+					$controller->addLinkMenuItem("opcao22", "[TEMP] Reimprimir Etiquetas", "/admin/reprintLabels", "fas fa-qrcode"),
 				]),
 			]);
 	}
@@ -262,7 +263,7 @@ class BaseAdminLteView extends BaseView {
 		$default_sidebar = $this->getSidebar($sidebarinfo);
 		
 		$defaultData = [
-			"pageTitle" => "Painel",
+			"page_title" => "Painel",
 			"layout" => "layouts/layout_adminlte",
 			"view" => $this,
 			"before_sidebar" => $default_before_sidebar,

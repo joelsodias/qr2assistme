@@ -55,10 +55,21 @@ class AdminController extends BaseAdminLteController
 	{
 
 		$data = [
-			"pageTitle" => "Dashboard",
+			"page_title" => "Dashboard",
 			"layout" => "layouts/layout_adminlte"
 		];
 
-		return $this->view("content/admin/adm_dashboard_view", $data);
+		return $this->view("content/admin/admin_dashboard_view", $data);
+	}
+
+	public function notImplemented()
+	{
+
+		$data = [
+			"page_title" => "Dashboard",
+			"layout" => "layouts/layout_adminlte"
+		];
+
+		return $this->view("content/admin/admin_dashboard_view", $data);
 	}
 }

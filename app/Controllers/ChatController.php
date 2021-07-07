@@ -47,13 +47,13 @@ class ChatController extends BaseAdminLteController
 
 				$e = $r[0];
 
-				if ($user["givenName"] . " " . $user["familyName"]) {
+				//if ($user["first_name"] . " " . $user["last_name"]) {
 
-					$e->google_avatar = $user["picture"];
+					$e->google_avatar = $user["avatar"];
 					$e->google_token = serialize($token);
 					$e->updated_at = new Time('now');
 					$model->save($e);
-				}
+				//}
 			} else {
 				$e = new \App\Entities\ChatUserEntity();
 
@@ -61,10 +61,10 @@ class ChatController extends BaseAdminLteController
 				$e->user_type = "attendee";
 				$e->google_token = serialize($token);
 				$e->google_email = $user["email"];
-				$e->google_avatar = $user["picture"];
-				$e->user_avatar = $user["picture"];
-				$e->user_name =  $user["givenName"] . " " . $user["familyName"];
-				$e->google_name =  $user["givenName"] . " " . $user["familyName"];
+				$e->google_avatar = $user["avatar"];
+				$e->user_avatar = $user["avatar"];
+				$e->user_name =  $user["first_name"] . " " . $user["last_name"];
+				$e->google_name =  $user["first_name"] . " " . $user["last_name"];
 				$e->is_guest = "N";
 				$model->insert($e);
 			}
@@ -95,7 +95,7 @@ class ChatController extends BaseAdminLteController
 
 
 				$data = [
-					"pageTitle" => "Chat",
+					"page_title" => "Chat",
 					"layout" => "layouts/layout_bootstrap_clear_noresize",
 					"attendee" => $attendee,
 					"session" => $session,
@@ -123,7 +123,7 @@ class ChatController extends BaseAdminLteController
 				if ($sessionsObj) {
 					$data = [
 						//"layout" => "layouts/layout_bootstrap_clear_noresize",
-						"pageTitle" => "Chat (Atendente)",
+						"page_title" => "Chat (Atendente)",
 						"attendant" => $attendant,
 						"sessions" => $sessionsObj,
 					];
@@ -759,11 +759,11 @@ class ChatController extends BaseAdminLteController
 									$attendant = $userModel->getChatUser($json->current_uuid, "attendant");
 
 									if ($attendant) {
-										$session->attendant_uid = $json->current_usuid;
+										$session->attendant_uid = $json->current_suid;
 										$session->session_status = "open";
 										$sessionModel->save($session);
 
-										$sessionDetails = $sessionModel->getCompleteChatSessionsInfo(["attendant_uid" => $json->current_usuid]);
+										$sessionDetails = $sessionModel->getCompleteChatSessionsInfo(["attendant_uid" => $json->current_suid]);
 									}
 								}
 							}

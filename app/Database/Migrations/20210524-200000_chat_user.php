@@ -76,6 +76,12 @@ class ChatUserTable extends BaseTableMigration
                 "null" => true,
             ],
 
+            "facebook_name" => [
+                "type" => "VARCHAR",
+                "constraint" => 250,
+                "null" => true,
+            ],
+
             "user_name" => [
                 "type" => "VARCHAR",
                 "constraint" => 250,

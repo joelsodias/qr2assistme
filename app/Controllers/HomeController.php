@@ -26,7 +26,7 @@ class HomeController extends BaseController
 	public function landpage() {
 	
 		$data = [
-			"pageTitle" => "Boas vindas!",
+			"page_title" => "Boas vindas!",
 			"layout" => "layouts/layout_bootstrap_clear_noresize"
 		];
 		
@@ -49,7 +49,7 @@ class HomeController extends BaseController
 	public function login() {
 	
 		$data = [
-			"pageTitle" => "Login",
+			"page_title" => "Login",
 			"layout" => "layouts/layout_bootstrap_clear_noresize"
 		];
 	

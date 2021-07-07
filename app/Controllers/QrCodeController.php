@@ -55,7 +55,7 @@ class QrCodeController extends BaseController
 	{
 
 		$data = [
-			"pageTitle" => "Qr View",
+			"page_title" => "Qr View",
 			"layout" => "layouts/layout_bootstrap_clear_noresize"
 		];
 

@@ -155,7 +155,7 @@
                 <div class="col-12 col-lg-6 m-auto ">
                     <div class="form-group col-12">
                         <label for="inputFone">Nome de Contato</label>
-                        <input required type="tel" id="schedule_contact" name="schedule_contact" class="form-control" value="<?= $user_name ?? "" ?>">
+                        <input required type="text" id="schedule_contact" name="schedule_contact" class="form-control" value="<?= $user_name ?? "" ?>">
                     </div>
                 </div>
             </div>

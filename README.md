@@ -11,13 +11,13 @@ QR2AssistMe uses [codeigniter](http://codeigniter.com) framework as a base for d
 ## Installation & Configuration
 
 * **Download** the source code
-* **Create** a MySQL or MariaDB database called qrassist and take note of user/password information
+* **Create** a MySQL or MariaDB database called "qrassist" and take note of user/password information
 * **Copy** .env.default to .env
-* **Edit** .env accordingly (set base URL, google client and mysql information for example)
-* **Run** composer install 
-* **Run** refersh.sh (linux) or refresh.bat (windows)
-* **That's it!**  
-* After that it is a normal codeigniter application to develop
+* **Edit** .env accordingly (set base URL, Google and Facebook client credentials and mysql information)
+* **Run** composer install to install required packages and libraries
+* **Run** refersh.sh (for linux) or refresh.bat (for windows)
+* **That should be enought!**  
+* After that it is a normal codeigniter application to work with
 
 ## Custom Classes
 There are a number of new classes created to add an abstraction layer on codeigniter and create functionality to help ordinary tasks:
@@ -39,8 +39,11 @@ QR2AssistMe available under [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.htm
 
 ## Libraries and components used
 
+I'd like to thank all developpers envolved on following projects:
+
 | Library | Version | Description |
 | -------- | -------- | -------- |
+|AdminLTE                             |v3        |Free Bootstrap Admin Template by AdminLTE.IO|
 |brick/math                           |0.9.2     |Arbitrary-precision arithmetic library|
 |chillerlan/php-qrcode                |3.4.0     |A QR code generator. PHP 7.2+|
 |chillerlan/php-settings-container    |1.2.1     |A container class for immutable settings objects. Not a DI container. PHP 7.2+|

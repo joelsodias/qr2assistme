@@ -225,8 +225,9 @@ class BaseAdminLteView extends BaseView {
 					$controller->addLinkMenuItem("opcao11", "Agendamentos", "/admin/schedule", "far fa-calendar-check"),
 					$controller->addLinkMenuItem("opcao12", "Clientes", "/admin/customer", "fas fa-user"),
 					$controller->addLinkMenuItem("opcao13", "Equipamentos de Clientes", "/admin/qrobject", "fas fa-qrcode"),
-					$controller->addLinkMenuItem("opcao14", "Técnicos", "/admin/worker/field", "fas fa-user-cog"),
-					$controller->addLinkMenuItem("opcao15", "Atendentes", "/admin/worker/attendant", "fas fa-headset"),
+					$controller->addLinkMenuItem("opcao14", "Colaboradores", "/admin/worker", "fas fa-user-cog"),
+					//$controller->addLinkMenuItem("opcao14", "Técnicos", "/admin/worker/field", "fas fa-user-cog"),
+					//$controller->addLinkMenuItem("opcao15", "Atendentes", "/admin/worker/attendant", "fas fa-headset"),
 				]),
 				$controller->addTreeViewMenuItem("opcao2", "FERRAMENTAS", "fas fa-tools", false, [
 					$controller->addLinkMenuItem("opcao21", "Gerar Novas Etiquetas", "/admin/printLabels", "fas fa-qrcode"),

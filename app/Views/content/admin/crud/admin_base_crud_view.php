@@ -109,15 +109,17 @@ function dispath_form_method($controller, $form_method, $data)
                 if (isset($dataset_visible_fields)) {
                     echo "columns:[\n";
                     $count = 0;
-                    if (($allow_delete ?? false) || ($allow_update ?? false)) {
-                        echo '                     { data : "' . $dataset_key_fieldname . '",  title: "Actions" },', "\n"; //, "defaultContent": "<button onclick=\'edititem();\'>Edit</button>" },';
-                    }
+                   
                     foreach ($dataset_visible_fields as $key => $value) {
                         if ($count) {
                             echo "                     { data: '$key' },\n";
                         } else {
                             echo "                     { data: '$key' },\n";
                         }
+                    }
+
+                    if (($allow_delete ?? false) || ($allow_update ?? false)) {
+                        echo '                     { data : "' . $dataset_key_fieldname . '",  title: "Actions", orderable: false, },', "\n"; //, "defaultContent": "<button onclick=\'edititem();\'>Edit</button>" },';
                     }
                     echo "                ],\n";
                 }
@@ -140,15 +142,12 @@ function dispath_form_method($controller, $form_method, $data)
 
                     <?php endif; ?>
 
-                    // defaultParams.setRowButtonsClick()
-                    // window.dataTableObject.on("draw", defaultParams.setRowButtonsClick)
-                    // window.dataTableObject.on("page", defaultParams.setRowButtonsClick)
-
 
                     $('#dataTable_wrapper > .row > .col-md-6:eq(1)').append(
                         $('<a href="#" class="btn btn-primary mr-3"><span class="fas fa-undo mr-2"></span><?= $reload_button_label ?></a>')
                         .on("click", function(e) {
-                           // window.dataTableObject.ajax.reload(defaultParams.setRowButtonsClick);
+                           window.dataTableObject.ajax.reload(defaultParams.setRowButtonsClick);
+                           console.log("reload");
                         })
                     );
 
@@ -179,6 +178,7 @@ function dispath_form_method($controller, $form_method, $data)
                 <?php if (($allow_delete ?? false) || ($allow_update ?? false)) : ?>
 
                     "columnDefs": [{
+                            "orderable": false,
                             // The `data` parameter refers to the data for the cell defined by the
                             // `data` option, which defaults to the column being worked with, in
                             // this case `data: 0`.
@@ -195,7 +195,7 @@ function dispath_form_method($controller, $form_method, $data)
                                         '<a href="#" class="row-edit-button btn btn-outline-primary ml-2" data-toggle="modal" data-target="#update-modal" data-row-num="' + window.dataTableObject.data().indexOf(row) + '" data-id="' + row.<?= $dataset_key_fieldname ?> + '"><span class="fas fa-pen"></span><span class="<?= ($row_label_buttons ?? false) ? 'ml-3">' . $edit_button_label . '</span>' : '"></span>' ?></a>'
                                 <?php endif; ?>
                             },
-                            "targets": 0,
+                            "targets": -1,
                         },
 
                     ],
@@ -308,9 +308,7 @@ function dispath_form_method($controller, $form_method, $data)
 <table id="dataTable" class="table table-striped" id="mydata">
     <thead>
         <tr>
-            <?php if (($allow_delete ?? false) || ($allow_update ?? false)) : ?>
-                <th style="text-align: right;">Actions</th>
-            <?php endif; ?>
+
             <?php
 
             if (isset($dataset_visible_fields)) {
@@ -320,7 +318,9 @@ function dispath_form_method($controller, $form_method, $data)
                 }
             }
 
-            ?>
+            if (($allow_delete ?? false) || ($allow_update ?? false)) : ?>
+                <th style="text-align: right;">Actions</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody id="show_data">

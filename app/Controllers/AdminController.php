@@ -16,7 +16,7 @@ class AdminController extends BaseAdminLteController
 		$data = [
 			"page_title" => "Painel de Controle",
 			"enable_content_header" => true,
-			"content_header_title" => "Nome da tela",
+			"content_header_title" => "Home",
 			//"before_sidebar" => "",
 			"enable_datatables" => true,
 		];

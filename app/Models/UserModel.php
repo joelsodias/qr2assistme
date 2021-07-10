@@ -27,11 +27,11 @@ class UserModel extends BaseModel
    {
       $e = null;
 
-      $uuid = (string) UuidV6::uuid6();
-
+      
       $userModel = new \App\Models\UserModel();
       
       if (!$data) {
+         $uuid = (string) UuidV6::uuid6();
          $data = new \App\Entities\UserEntity();
          $data->user_uid = $uuid;
          $faker = $this->getFaker('pt_BR');
@@ -42,7 +42,7 @@ class UserModel extends BaseModel
          $data->user_password_open = $this->getRandomPassword(15);
          $data->user_password = password_hash($data->user_password_open, PASSWORD_BCRYPT, ["cost" => 10]);
       } else {
-         $data->user_uid = $uuid;
+         $data->user_uid = $data->user_uid;
       }
 
       $id = $this->insert($data, true);

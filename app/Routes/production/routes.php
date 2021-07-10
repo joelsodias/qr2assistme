@@ -5,7 +5,6 @@
 
 
 $routes->get('/', 'HomeController::landpage');
-$routes->get('uid', 'TestController::uuidtest');
 $routes->get('home', 'HomeController::index');
 $routes->get('/land', 'HomeController::landpage');
 $routes->get('leitor', 'QrCodeController::reader', ['filter' => 'ssl']);
@@ -62,8 +61,8 @@ $routes->group('admin', ['filter' => 'ssl+auth:admin'], function ($routes) {
 });
 
 $routes->group('admin/api', function ($routes) {
-    $routes->get('insertobject/(:any)', 'QrObjectController::insertAttendeeObject/$1');
-    $routes->get('deleteobject/(:num)', 'QrObjectController::deleteAttendeeObject/$1');
+    // $routes->get('insertobject/(:any)', 'QrObjectController::insertAttendeeObject/$1');
+    // $routes->get('deleteobject/(:num)', 'QrObjectController::deleteAttendeeObject/$1');
 });
 
 

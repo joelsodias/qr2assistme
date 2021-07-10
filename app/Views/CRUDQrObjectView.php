@@ -10,7 +10,7 @@ class CRUDQrObjectView extends BaseAdminLteCRUDView {
 	public function getCustomHTML($data = null)
 	{
 
-/* ? >
+?>
 
 		<div class="modal fade" id="myModal">
 			<div class="modal-dialog">
@@ -194,7 +194,7 @@ class CRUDQrObjectView extends BaseAdminLteCRUDView {
 			</div>
 		</div>
 <?php
-*/
+
 
 	}
 

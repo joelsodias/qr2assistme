@@ -5,7 +5,7 @@
 QR2AssistMe is an open source web system to control  equipments or objects for technical services companies using QR Codes help tracking them. 
 
 
-QR2AssistMe uses [codeigniter](http://codeigniter.com) framework as a base for development and additionally uses other key libraries and components described bellow.
+QR2AssistMe uses [Codeigniter 4](http://codeigniter.com) framework as a base for development and additionally uses other key libraries and components described bellow.
 
 
 ## Installation & Configuration
@@ -44,6 +44,7 @@ I'd like to thank all developpers envolved on following projects:
 | Library | Version | Description |
 | -------- | -------- | -------- |
 |AdminLTE                             |v3        |Free Bootstrap Admin Template by AdminLTE.IO|
+|nimiq/qr-scanner                     |v3        |Javascript QR Code Scanner based on Cosmo Wolfe's javascript port of Google's ZXing library.|
 |brick/math                           |0.9.2     |Arbitrary-precision arithmetic library|
 |chillerlan/php-qrcode                |3.4.0     |A QR code generator. PHP 7.2+|
 |chillerlan/php-settings-container    |1.2.1     |A container class for immutable settings objects. Not a DI container. PHP 7.2+|

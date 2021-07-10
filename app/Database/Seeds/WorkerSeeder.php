@@ -16,6 +16,7 @@ class WorkerSeeder extends BaseSeeder
 		for ($i = 0; $i < $max; $i++) {
 
 			$uuid = $this->getNewUUidString();
+
 			$firstName = $faker->firstName();
 			$lastName = $faker->lastName();
 			$emailLastName = str_replace(array("de ", "das ", "da ", "D'"), array("", "", "", ""), $lastName);
@@ -40,6 +41,7 @@ class WorkerSeeder extends BaseSeeder
 			$u->user_password_open = $this->getRandomPassword(15);
 			$u->user_password = password_hash($u->user_password_open, PASSWORD_BCRYPT, ["cost" => 10]);
 			$u->worker_uid = $worker->worker_uid;
+			$u->user_uid = $worker->worker_uid;
 
 			$user = $userModel->createUser($u);
 

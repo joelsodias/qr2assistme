@@ -27,13 +27,13 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<?= $this->openCard("Funcionalidade") ?>
+<?= $this->openCard("Home") ?>
 
 
 <div class="card-body">
 
+Home
 
-<h2>Funcionalidade ainda não implementada no protótipo</h2>
 
 </div>
 

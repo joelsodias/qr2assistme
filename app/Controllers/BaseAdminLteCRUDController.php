@@ -29,7 +29,7 @@ class BaseAdminLteCRUDController extends BaseAdminLteController
 	{
 		$class = get_class($this);
 
-	
+
 		$defaultData = [
 			"dataset_array" => null,
 			"allow_insert" => false,
@@ -70,31 +70,57 @@ class BaseAdminLteCRUDController extends BaseAdminLteController
 		return $this->view("content/admin/crud/admin_base_crud_view", $data);
 	}
 
-    protected function defaultNotImplementedResult () {
+	protected function defaultNotImplementedResult()
+	{
 		$data = [
 			"status_code" => 501,
 			"status" => "Not Implemented",
 			"status_messages" => ["Method not implemented"],
-			"result_data" =>[],
+			"result_data" => [],
 		];
-		return $this->response->setJSON($data);		
+		return $this->response->setJSON($data);
 	}
+
+	protected function defaultDatatablesSearchAction($builder, $get)
+	{
+		if (isset($get["columns"]) && count($get["columns"])) {
+			foreach ($get["columns"] as $key => $value) {
+				if (!str_ends_with($value["data"], "_translated")) {
+					if (isset($value["search"]) && isset($value["search"]["value"]) && ($value["search"]["value"] != "")) {
+						$builder->like($value["data"], $value["search"]["value"], "both");
+					}
+				}
+			}
+
+			if (isset($get["order"]) && count($get["order"])) {
+				foreach ($get["order"] as $key => $value) {
+					$colnum =  $value["column"];
+					$col =  $get["columns"][$colnum]["data"];
+					$dir = $value["dir"];
+					
+					if (!str_ends_with($col, "_translated")) {
+
+						$builder->orderBy($col, $dir);
+					}
+				}
+			}
+		}
+		return $builder;
+	}
+
 
 	public function getList()
 	{
 		return $this->defaultNotImplementedResult();
 	}
-	
+
 	public function postSave()
 	{
 		return $this->defaultNotImplementedResult();
 	}
-	
+
 	public function postDelete()
 	{
 		return $this->defaultNotImplementedResult();
 	}
-
-
-
 }

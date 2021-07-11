@@ -4,72 +4,70 @@ namespace App\Controllers;
 
 use CodeIgniter\Exceptions\PageNotFoundException;
 
-
-
 class AdminController extends BaseAdminLteController
 {
 
 
-	public function viewBackendAdmin($user)
-	{
+    public function viewBackendAdmin($user)
+    {
 
-		$data = [
-			"page_title" => "Painel de Controle",
-			"enable_content_header" => true,
-			"content_header_title" => "Home",
-			//"before_sidebar" => "",
-			"enable_datatables" => true,
-		];
+        $data = [
+            "page_title" => "Painel de Controle",
+            "enable_content_header" => true,
+            "content_header_title" => "Home",
+            //"before_sidebar" => "",
+            "enable_datatables" => true,
+        ];
 
-		return $this->view("content/admin/admin_home_view", $data);
-	}
+        return $this->view("content/admin/admin_home_view", $data);
+    }
 
 
-	public function index()
-	{
+    public function index()
+    {
 
-		$user = $_SESSION["auth"]["admin"]["local"]["user"];
-		if (isset($user)) {
-			if (isset($user->worker->worker_type)) {
+        $user = $_SESSION["auth"]["admin"]["local"]["user"];
+        if (isset($user)) {
+            if (isset($user->worker->worker_type)) {
+                switch ($user->worker->worker_type) {
+                    case "field":
+                        return redirect()->to("/field");
+                        break;
+                    case "attendant":
+                        return $this->viewBackendAdmin($user);
+                        break;
+                    default:
+                        throw PageNotFoundException::forPageNotFound();
+                        break;
+                }
+            } else {
+                throw PageNotFoundException::forPageNotFound();
+            }
+        } else {
+            $_SESSION["auth"]["admin"]["connected"] = false;
+            return redirect()->to("/admin/login");
+        }
+    }
 
-				switch ($user->worker->worker_type) {
+    public function dashboard()
+    {
 
-					case "field":
-						return redirect()->to("/field");
-						break;
-					case "attendant":
-						return $this->viewBackendAdmin($user);
-						break;
-					default:
-						throw PageNotFoundException::forPageNotFound();
-						break;
-				}
-			} else throw PageNotFoundException::forPageNotFound();
-		} else {
-			$_SESSION["auth"]["admin"]["connected"] = false;
-			return redirect()->to("/admin/login");
-		}
-	}
+        $data = [
+            "page_title" => "Dashboard",
+            "layout" => "layouts/layout_adminlte"
+        ];
 
-	public function dashboard()
-	{
+        return $this->view("content/admin/admin_dashboard_view", $data);
+    }
 
-		$data = [
-			"page_title" => "Dashboard",
-			"layout" => "layouts/layout_adminlte"
-		];
+    public function notImplemented()
+    {
 
-		return $this->view("content/admin/admin_dashboard_view", $data);
-	}
+        $data = [
+            "page_title" => "Dashboard",
+            "layout" => "layouts/layout_adminlte"
+        ];
 
-	public function notImplemented()
-	{
-
-		$data = [
-			"page_title" => "Dashboard",
-			"layout" => "layouts/layout_adminlte"
-		];
-
-		return $this->view("content/admin/admin_dashboard_view", $data);
-	}
+        return $this->view("content/admin/admin_dashboard_view", $data);
+    }
 }

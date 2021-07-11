@@ -12,27 +12,28 @@ class BaseEntity extends Entity
 
     protected $datalabels = [];
 
-    protected $_datalabels = [
+    protected $internalDataLabels = [
         "created_at" => "Criação",
         "updated_at" => "Atualização",
         //"deleted_at" => "Deleção",
     ];
 
-    protected $datamap = [
-
-    ];
+    protected $datamap = [];
 
 
-    public function __construct(array $data = null) {
+    public function __construct(array $data = null)
+    {
         parent::__construct($data);
-        $this->datalabels = CustomHelper::array_merge_recursive_distinct($this->_datalabels, $this->datalabels);
+        $this->datalabels = CustomHelper::array_merge_recursive_distinct($this->internalDataLabels, $this->datalabels);
     }
 
-    public function getFieldLabel($fieldname) {
-        return array_key_exists($fieldname,$this->datalabels) ? $this->datalabels[$fieldname] : ""; 
+    public function getFieldLabel($fieldname)
+    {
+        return array_key_exists($fieldname, $this->datalabels) ? $this->datalabels[$fieldname] : "";
     }
 
-    public function getFieldLabels(array $fields = []) {
+    public function getFieldLabels(array $fields = [])
+    {
         if (count($fields)) {
             return array_intersect_key($this->datalabels, array_flip($fields));
         } else {
@@ -40,25 +41,24 @@ class BaseEntity extends Entity
         }
     }
 
-    protected function _getUuidField($field)
+    protected function internalGetUuidField($field)
     {
         //return ($this->attributes[$field]) ? (string) UuidV6::fromBytes($this->attributes[$field]) : null;
-        return ($this->attributes[$field]); 
-        }
+        return ($this->attributes[$field]);
+    }
 
-    protected function _setUuidField($field, $uuid)
+    protected function internalSetUuidField($field, $uuid)
     {
         //$this->attributes[$field] =  (strlen($uuid) > 16) ? UuidV6::fromString($uuid)->getBytes() : $uuid;
         $this->attributes[$field] = $uuid;
     }
 
-    protected function _getDateAt($field, string $format = 'Y-m-d H:i:s')
+    protected function internalGetDateAt($field, string $format = 'Y-m-d H:i:s')
     {
         // Convert to CodeIgniter\I18n\Time object
         $date = $this->mutateDate($this->attributes[$field]);
 
         if ($date) {
-
             $timezone = $this->timezone ?? app_timezone();
 
             $date->setTimezone($timezone);
@@ -67,12 +67,11 @@ class BaseEntity extends Entity
         }
         return $date;
     }
-    protected function _setDateAt($field, $value)
+    protected function internalSetDateAt($field, $value)
     {
         $date = $this->mutateDate($value);
 
         if ($date) {
-
             $timezone = $this->timezone ?? app_timezone();
 
             $date->setTimezone($timezone);
@@ -83,21 +82,21 @@ class BaseEntity extends Entity
     }
     public function getCreatedAt(string $format = 'Y-m-d H:i:s')
     {
-        return $this->_getDateAt("created_at");
+        return $this->internalGetDateAt("created_at");
     }
 
     public function getUpdatedAt(string $format = 'Y-m-d H:i:s')
     {
-        return $this->_getDateAt("updated_at");
+        return $this->internalGetDateAt("updated_at");
     }
-    
+
     public function setUpdatedAt($value)
     {
-        return $this->_setDateAt("updated_at", $value);
+        return $this->internalSetDateAt("updated_at", $value);
     }
 
     public function getDeletedAt(string $format = 'Y-m-d H:i:s')
     {
-        return $this->_getDateAt("deleted_at");
+        return $this->internalGetDateAt("deleted_at");
     }
 }

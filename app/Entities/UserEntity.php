@@ -7,16 +7,13 @@ use App\Entities\BaseEntity;
 
 class UserEntity extends BaseEntity
 {
-	public function getUserUid()
+    public function getUserUid()
     {
-       return $this->_getUuidField('user_uid');
+        return $this->internalGetUuidField('user_uid');
     }
 
     public function setUserUid(string $uuid)
     {
-       $this->_setUuidField('user_uid',$uuid);
-    } 
-
-
-
+        $this->internalSetUuidField('user_uid', $uuid);
+    }
 }

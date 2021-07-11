@@ -7,56 +7,53 @@ use App\Entities\BaseEntity;
 
 class FileEntity extends BaseEntity
 {
-	public function getScheduleUid()
+    public function getScheduleUid()
     {
-       return $this->_getUuidField('schedule_uid');
+        return $this->internalGetUuidField('schedule_uid');
     }
 
     public function setScheduleUid(string $uuid)
     {
-       $this->_setUuidField('schedule_uid',$uuid);
+        $this->internalSetUuidField('schedule_uid', $uuid);
     }
 
-	public function getWorkerUid()
+    public function getWorkerUid()
     {
-       return $this->_getUuidField('worker_uid');
+        return $this->internalGetUuidField('worker_uid');
     }
 
     public function setWorkerUid(string $uuid)
     {
-       $this->_setUuidField('worker_uid',$uuid);
-    } 
+        $this->internalSetUuidField('worker_uid', $uuid);
+    }
 
     public function getTicketUid()
     {
-       return $this->_getUuidField('ticket_uid');
+        return $this->internalGetUuidField('ticket_uid');
     }
 
     public function setTicketUid(string $uuid)
     {
-       $this->_setUuidField('ticket_uid',$uuid);
-    } 
+        $this->internalSetUuidField('ticket_uid', $uuid);
+    }
 
     public function getObjectUid()
     {
-       return $this->_getUuidField('object_uid');
+        return $this->internalGetUuidField('object_uid');
     }
 
     public function setObjectUid(string $uuid)
     {
-       $this->_setUuidField('object_uid',$uuid);
-    } 
+        $this->internalSetUuidField('object_uid', $uuid);
+    }
 
     public function getFileUid()
     {
-       return $this->_getUuidField('file_uid');
+        return $this->internalGetUuidField('file_uid');
     }
 
     public function setFileUid(string $uuid)
     {
-       $this->_setUuidField('file_uid',$uuid);
-    } 
-
-
-
+        $this->internalSetUuidField('file_uid', $uuid);
+    }
 }

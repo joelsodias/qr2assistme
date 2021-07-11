@@ -7,33 +7,33 @@ use App\Entities\BaseEntity;
 
 class ChatSessionEntity extends BaseEntity
 {
-   public function getSessionUid()
-   {
-      return $this->_getUuidField('session_uid');
-   }
+    public function getSessionUid()
+    {
+        return $this->internalGetUuidField('session_uid');
+    }
 
-   public function setSessionUid(string $uuid)
-   {
-      $this->_setUuidField('session_uid', $uuid);
-   }
+    public function setSessionUid(string $uuid)
+    {
+        $this->internalSetUuidField('session_uid', $uuid);
+    }
 
-   public function getAttendeeUid()
-   {
-      return $this->_getUuidField('attendee_uid');
-   }
+    public function getAttendeeUid()
+    {
+        return $this->internalGetUuidField('attendee_uid');
+    }
 
-   public function setAttendeeUid(string $uuid)
-   {
-      $this->_setUuidField('attendee_uid', $uuid);
-   }
+    public function setAttendeeUid(string $uuid)
+    {
+        $this->internalSetUuidField('attendee_uid', $uuid);
+    }
 
-   public function getAttendantUid()
-   {
-      return $this->_getUuidField('attendant_uid');
-   }
+    public function getAttendantUid()
+    {
+        return $this->internalGetUuidField('attendant_uid');
+    }
 
-   public function setAttendantUid($uuid)
-   {
-      $this->_setUuidField('attendant_uid', $uuid);
-   }
+    public function setAttendantUid($uuid)
+    {
+        $this->internalSetUuidField('attendant_uid', $uuid);
+    }
 }

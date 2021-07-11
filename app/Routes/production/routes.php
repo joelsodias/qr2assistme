@@ -71,7 +71,7 @@ $routes->group('admin/api', function ($routes) {
 $routes->group('/attendee', ['filter' => 'ssl'], function ($routes) {
      // /attendee/login/chat/facebook/uri
     $routes->get('login/(:segment)/(:segment)/(:segment)', 'AuthController::redirectProviderLogin/$1/$2/$3', );
-    $routes->get('login/(:segment)', 'AuthController::AttendeeLogin/$1', );
+    $routes->get('login/(:segment)', 'AuthController::attendeeLogin/$1', );
     $routes->get('logout', 'AuthController::getAtendeeLogout', );
 
     $routes->get('finish', 'ScheduleController::finishAttendeeProcess', );
@@ -91,9 +91,9 @@ $routes->group('/attendee', ['filter' => 'ssl'], function ($routes) {
 });
 
 $routes->group('chat/api', ['filter' => 'ssl'], function ($routes) {
-    // $routes->get('random/user', 'ChatController::RandomChatUser');
-    // $routes->get('random/attendee', 'ChatController::RandomChatAttendee');
-    // $routes->get('random/attendant', 'ChatController::RandomChatAttendant');
+    // $routes->get('random/user', 'ChatController::randomChatUser');
+    // $routes->get('random/attendee', 'ChatController::randomChatAttendee');
+    // $routes->get('random/attendant', 'ChatController::randomChatAttendant');
     // $routes->get('user/register/(:alpha)', 'ChatController::registerChatUser/$1');
     // $routes->get('user/list', 'ChatController::listChatUsers');
     // $routes->get('user/(:segment)', 'ChatController::getChatUser/$1');

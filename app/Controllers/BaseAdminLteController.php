@@ -11,12 +11,7 @@ use chillerlan\QRCode\QRCode;
 use App\Helpers\CustomHelper;
 use App\Views\BaseAdminLteView;
 
-
-class BaseAdminLteController extends BaseController { 
-
-
-	protected $viewClass = "App\Views\BaseAdminLteView";
-
-
-
+class BaseAdminLteController extends BaseController
+{
+    protected $viewClass = "App\Views\BaseAdminLteView";
 }

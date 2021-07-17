@@ -29,7 +29,7 @@ $routes->group('admin', ['filter' => 'ssl+auth:admin'], function ($routes) {
     $routes->get('logout', 'AuthController::getAdmLogout');
 
     $routes->get('chat/(:segment)', 'ChatController::chatAttendant/$1');
-    
+
     $routes->get('schedule', 'AdminController::notImplemented');
     $routes->get('dashboard', 'AdminController::notImplemented');
     $routes->get('worker/attendant', 'AdminController::notImplemented');
@@ -71,21 +71,21 @@ $routes->group('admin/api', function ($routes) {
 $routes->group('/attendee', ['filter' => 'ssl'], function ($routes) {
      // /attendee/login/chat/facebook/uri
     $routes->get('login/(:segment)/(:segment)/(:segment)', 'AuthController::redirectProviderLogin/$1/$2/$3', );
-    $routes->get('login/(:segment)', 'AuthController::attendeeLogin/$1', );
-    $routes->get('logout', 'AuthController::getAtendeeLogout', );
+    $routes->get('login/(:segment)', 'AuthController::attendeeLogin/$1');
+    $routes->get('logout', 'AuthController::getAtendeeLogout');
 
     $routes->get('finish', 'ScheduleController::finishAttendeeProcess', );
 
     $routes->group('chat', ['filter' => 'ssl+auth:attendee'], function ($routes) {
-        $routes->get('guest', 'ChatController::chatAttendeeGuest',);
-        $routes->get('identified', 'ChatController::chatAttendeeIdentified',);
+        $routes->get('guest', 'ChatController::chatAttendeeGuest');
+        $routes->get('identified', 'ChatController::chatAttendeeIdentified');
         $routes->get('front/(:segment)', 'ChatController::chatAttendee/$1');
     });
 
     $routes->group('schedule', ['filter' => 'ssl+auth:attendee'], function ($routes) {
-        $routes->get('show/(:segment)', 'ScheduleController::showIdentifiedAttendeeSchedule/$1',);
-        $routes->get('identified', 'ScheduleController::getIdentifiedAttendeeScheduler',);
-        $routes->post('identified', 'ScheduleController::postIdentifiedAttendeeScheduler',);
+        $routes->get('show/(:segment)', 'ScheduleController::showIdentifiedAttendeeSchedule/$1');
+        $routes->get('identified', 'ScheduleController::getIdentifiedAttendeeScheduler');
+        $routes->post('identified', 'ScheduleController::postIdentifiedAttendeeScheduler');
     });
 
 });

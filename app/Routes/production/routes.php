@@ -70,11 +70,11 @@ $routes->group('admin/api', function ($routes) {
 
 $routes->group('/attendee', ['filter' => 'ssl'], function ($routes) {
      // /attendee/login/chat/facebook/uri
-    $routes->get('login/(:segment)/(:segment)/(:segment)', 'AuthController::redirectProviderLogin/$1/$2/$3', );
+    $routes->get('login/(:segment)/(:segment)/(:segment)', 'AuthController::redirectProviderLogin/$1/$2/$3');
     $routes->get('login/(:segment)', 'AuthController::attendeeLogin/$1');
     $routes->get('logout', 'AuthController::getAtendeeLogout');
 
-    $routes->get('finish', 'ScheduleController::finishAttendeeProcess', );
+    $routes->get('finish', 'ScheduleController::finishAttendeeProcess');
 
     $routes->group('chat', ['filter' => 'ssl+auth:attendee'], function ($routes) {
         $routes->get('guest', 'ChatController::chatAttendeeGuest');
@@ -87,7 +87,6 @@ $routes->group('/attendee', ['filter' => 'ssl'], function ($routes) {
         $routes->get('identified', 'ScheduleController::getIdentifiedAttendeeScheduler');
         $routes->post('identified', 'ScheduleController::postIdentifiedAttendeeScheduler');
     });
-
 });
 
 $routes->group('chat/api', ['filter' => 'ssl'], function ($routes) {

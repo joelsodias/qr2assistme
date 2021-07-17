@@ -60,18 +60,18 @@ class FileTable extends BaseTableMigration
                 'constraint'        => 36,
                 'null'              => true,
             ],
-            
+
             'file_status'         => [
                 'type'              => 'ENUM("draft","active","deleted")',
                 'deafult'           => 'draft',
                 'null'              => false,
             ],
-            
+
             'file_context' => [
                 'type'              => 'ENUM("object","other")',
                 'null'              => true,
             ],
-            
+
             'file_name' => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 250,
@@ -83,7 +83,7 @@ class FileTable extends BaseTableMigration
                 'constraint'        => 250,
                 'null'              => true,
             ],
-           
+
             'file_description' => [
                 'type' => 'TEXT',
                 'null' => true,

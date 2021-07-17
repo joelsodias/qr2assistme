@@ -17,7 +17,7 @@ $routes->get('home/shortid', 'HomeController::shortidtest');
 $routes->group('field', ['filter' => 'ssl+auth:admin'], function ($routes) {
     $routes->get('/', 'AdminFieldController::index');
     $routes->get('logout', 'AdminFieldController::logout');
-    $routes->get('schedule/open/(:segment)', 'ScheduleController::openSchedule/$1');
+    $routes->get('schedule/(:segment)', 'ScheduleController::openSchedule/$1');
     $routes->post('schedule/save', 'ScheduleController::saveSchedule/$1');
 });
 

@@ -18,6 +18,10 @@ class ScheduleController extends BaseAdminLteController
         $schedule = $scheduleModel->getScheduleComplete($schedule_uid);
 
         if (isset($schedule)) {
+            $fileModel = new \App\Models\FileModel();
+
+            $files = $fileModel->getFiles($schedule_uid);
+
             $data = [
                 "page_title" => "Atendimento",
                 "enable_content_header" => true,
@@ -28,12 +32,42 @@ class ScheduleController extends BaseAdminLteController
                 "sidebar" => "",
                 "enable_datatables" => false,
                 "schedule" => $schedule,
+                "files" => $files,
             ];
 
             return $this->view("content/admin/field/field_admin_schedule_view", $data);
         } else {
             throw PageNotFoundException::forPageNotFound();
         }
+    }
+
+
+    private function gdResizeImage($file, $w, $h, $crop = false)
+    {
+        list($width, $height) = getimagesize($file);
+        $r = $width / $height;
+        if ($crop) {
+            if ($width > $height) {
+                $width = ceil($width - ($width * abs($r - $w / $h)));
+            } else {
+                $height = ceil($height - ($height * abs($r - $w / $h)));
+            }
+            $newwidth = $w;
+            $newheight = $h;
+        } else {
+            if ($w / $h > $r) {
+                $newwidth = $h * $r;
+                $newheight = $h;
+            } else {
+                $newheight = $w / $r;
+                $newwidth = $w;
+            }
+        }
+        $src = imagecreatefromjpeg($file);
+        $dst = imagecreatetruecolor($newwidth, $newheight);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+
+        return $dst;
     }
 
     public function saveSchedule()
@@ -44,6 +78,8 @@ class ScheduleController extends BaseAdminLteController
 
         $schedule_uid = $this->getRequestParam("schedule_uid");
         $object_uid = $this->getRequestParam("object_uid");
+        $saveAction = $this->getRequestParam("post_save_action");
+
 
         if ($this->validateUuid($schedule_uid, false) && $this->validateUuid($object_uid, false)) {
             $scheduleModel = new \App\Models\ScheduleModel();
@@ -86,10 +122,13 @@ class ScheduleController extends BaseAdminLteController
                     $ext = $file->getClientExtension();
 
                     if ($file->isValid() && !$file->hasMoved()) {
-                        if (!directoryExists(ROOTPATH . 'public/images/uploads/' . $todayFolder)) {
-                            mkdir(ROOTPATH . 'public/images/uploads/' . $todayFolder);
+                        $savePath = ROOTPATH . 'public/images/uploads/' . $todayFolder;
+                        if (!is_dir($savePath)) {
+                            mkdir($savePath, 0755, true);
                         }
-                        $file->move(ROOTPATH . 'public/images/uploads/' . $todayFolder, $fileName);
+                        $file->move($savePath, $fileName);
+                        $dst = $this->gdResizeImage($savePath . '/' . $fileName, 1024, 768);
+                        imagejpeg($dst, $savePath . '/' . $fileName);
                         log_message("info", $fileName . " saved to public upload folder");
                     }
 
@@ -98,6 +137,12 @@ class ScheduleController extends BaseAdminLteController
                     unset($f);
                     unset($fileModel);
                 }
+            }
+
+            if ($saveAction == "continue") {
+                return redirect()->to("/field/schedule/" . $schedule_uid);
+            } else {
+                return redirect()->to("/field");
             }
         } else {
             throw PageNotFoundException::forPageNotFound();

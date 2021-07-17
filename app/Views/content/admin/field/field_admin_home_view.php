@@ -66,7 +66,7 @@
                             return ""
                             <?php if ($allow_start_button ?? true) : ?>
                                     +
-                                    '<a href="/field/schedule/open/' + row[0] + '" class="row-start-button btn btn-outline-primary ml-2" d-ata-toggle="modal" d-ata-target="#start-modal" data-row-num="' + $("#dataTable").DataTable().data().indexOf(row) + '" data-id="' + row[0] + '"><span class="fas fa-play-circle"></span><span class="<?= ($row_label_buttons ?? false) ? 'ml-3">' . $start_button_label . '</span>' : '"></span>' ?></a>'
+                                    '<a href="/field/schedule/' + row[0] + '" class="row-start-button btn btn-outline-primary ml-2" d-ata-toggle="modal" d-ata-target="#start-modal" data-row-num="' + $("#dataTable").DataTable().data().indexOf(row) + '" data-id="' + row[0] + '"><span class="fas fa-play-circle"></span><span class="<?= ($row_label_buttons ?? false) ? 'ml-3">' . $start_button_label . '</span>' : '"></span>' ?></a>'
                             <?php endif; ?>
 
                             <?php if ($allow_reschedule_button ?? false) : ?>

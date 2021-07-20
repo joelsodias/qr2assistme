@@ -18,7 +18,7 @@ class BaseAdminLteView extends BaseView
             . "</a>";
     }
 
-    public function addSidebarUserPanel(string $name = "", string $image = "",  string $uri = "#")
+    public function addSidebarUserPanel(string $name = "", string $image = "", string $uri = "#")
     {
         return
             "<!-- Sidebar user panel -->"
@@ -223,7 +223,7 @@ class BaseAdminLteView extends BaseView
             . $controller->addSidebarMenu("menu1", [
                 $controller->addLinkMenuItem("opcao01", "Home", "/admin/", "fas fa-home"),
                 //$controller->addLinkMenuItem("opcao02", "Atendimentos", "/admin/chat/", "fas fa-comments"),
-                $controller->addLinkMenuItem("opcao12", "Atendimentos", "/admin/chat/" .  $data->user->worker_uid ?? "", "fas fa-comments"),
+                $controller->addLinkMenuItem("opcao12", "Atendimentos", "/admin/chat/" .  ((isset($data->user) && isset($data->user->worker_uid)) ? $data->user->worker_uid : ""), "fas fa-comments"),
                 //$controller->addTextMenuItem("CADASTROS", "far fa-circle"),
                 $controller->addTreeViewMenuItem("opcao1", "BASES", "fas fa-database", false, [
                     $controller->addLinkMenuItem("opcao11", "Agendamentos", "/admin/schedule", "far fa-calendar-check"),

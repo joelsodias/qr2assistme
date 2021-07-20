@@ -11,7 +11,7 @@ class ScheduleEntity extends BaseEntity
         return $this->internalGetUuidField('schedule_uid');
     }
 
-    public function setScheduleUid(string $uuid)
+    public function setScheduleUid($uuid)
     {
         $this->internalSetUuidField('schedule_uid', $uuid);
     }
@@ -21,7 +21,7 @@ class ScheduleEntity extends BaseEntity
         return $this->internalGetUuidField('schedule_by_uid');
     }
 
-    public function setScheduledByUid(string $uuid)
+    public function setScheduledByUid($uuid)
     {
         $this->internalSetUuidField('schedule_by_uid', $uuid);
     }
@@ -31,7 +31,7 @@ class ScheduleEntity extends BaseEntity
         return $this->internalGetUuidField('worker_uid');
     }
 
-    public function setWorkerUid(string $uuid)
+    public function setWorkerUid($uuid)
     {
         $this->internalSetUuidField('worker_uid', $uuid);
     }
@@ -41,7 +41,7 @@ class ScheduleEntity extends BaseEntity
         return $this->internalGetUuidField('ticket_uid');
     }
 
-    public function setTicketUid(string $uuid)
+    public function setTicketUid($uuid)
     {
         $this->internalSetUuidField('ticket_uid', $uuid);
     }
@@ -51,7 +51,7 @@ class ScheduleEntity extends BaseEntity
         return $this->internalGetUuidField('object_uid');
     }
 
-    public function setObjectUid(string $uuid)
+    public function setObjectUid($uuid)
     {
         $this->internalSetUuidField('object_uid', $uuid);
     }

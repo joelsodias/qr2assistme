@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/common.css">
     <?= $this->renderSection("custom_css") ?>
 </head>
 

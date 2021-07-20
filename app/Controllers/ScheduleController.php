@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 use App\Entities\ScheduleEntity;
+use DateTime;
 
 use function PHPUnit\Framework\directoryExists;
 
@@ -89,7 +90,7 @@ class ScheduleController extends BaseAdminLteController
 
             $s = $result[0];
 
-            $s->object_uid = $this->getRequestParam("object_uid") ?? $s->object_uid;
+            $s->object_uid = $object_uid ?? $s->object_uid;
             $s->schedule_description = $this->getRequestParam("schedule_description") ?? $s->schedule_description;
 
             $now = new Time("now");
@@ -257,5 +258,146 @@ class ScheduleController extends BaseAdminLteController
             "layout" => "layouts/layout_bootstrap_clear_noresize",
         ];
         return $this->view("content/schedule_attendee_finish_view", $data);
+    }
+
+
+    public function showAdminScheduleDate($date)
+    {
+
+        $d = new DateTime($date);
+
+        $scheduleModel = new \App\Models\ScheduleModel();
+        $workerModel = new \App\Models\WorkerModel();
+
+        $schedules = $scheduleModel->getScheduleCompleteByDate($d->format("Y-m-d"));
+
+        $workers = $workerModel->getWorker(null,"field");
+
+        $data = [
+            "page_title" => "Agenda do dia: " . $d->format("d/m/Y"),
+            "schedules" => $schedules,
+            "workers" => $workers,
+            "current_date" => $d,
+            "enable_datatables" => true,
+            "list_url" => "/admin/api/schedule/date/" . $d->format("Y-m-d"),
+        ];
+        return $this->view("content/admin/admin_schedule_date_view", $data);
+    }
+
+    public function confirmSchedule(){
+        $schedule_uid = $this->getRequestParam("schedule_uid");
+        $schedule_date = $this->getRequestParam("schedule_date");
+        $schedule_current_date = $this->getRequestParam("schedule_current_date");
+        $schedule_time = $this->getRequestParam("schedule_time");
+        $worker_uid = $this->getRequestParam("worker_uid");
+
+        $scheduleModel = new \App\Models\ScheduleModel();
+        $s = $scheduleModel->getSchedule($schedule_uid);
+        //$s = new \App\Entities\ScheduleEntity();
+        $s->schedule_uid = $schedule_uid;
+        $d = DateTime::createFromFormat("d/m/Y",$schedule_date);
+        $s->schedule_date = $d->format("Y-m-d") . ' ' . $schedule_time;
+        $s->worker_uid = $worker_uid;
+        $s->schedule_status = "scheduled";
+
+        $scheduleModel->save($s);
+        
+        return redirect()->to("/admin/schedule/date/$schedule_current_date");
+    }
+    
+    public function changeSchedule(){
+        $schedule_uid = $this->getRequestParam("schedule_uid");
+        $schedule_date = $this->getRequestParam("schedule_date");
+        $schedule_current_date = $this->getRequestParam("schedule_current_date");
+        $schedule_time = $this->getRequestParam("schedule_time");
+        $worker_uid = $this->getRequestParam("worker_uid");
+
+        $scheduleModel = new \App\Models\ScheduleModel();
+        $s = $scheduleModel->getSchedule($schedule_uid);
+        //$s = new \App\Entities\ScheduleEntity();
+        $s->schedule_uid = $schedule_uid;
+        $d = DateTime::createFromFormat("d/m/Y",$schedule_date);
+        $s->schedule_date = $d->format("Y-m-d") . ' ' . $schedule_time;
+        $s->worker_uid = $worker_uid;
+
+        $scheduleModel->save($s);
+        
+        return redirect()->to("/admin/schedule/date/$schedule_current_date");
+    }
+    
+    public function cancelSchedule(){
+        $schedule_uid = $this->getRequestParam("schedule_uid");
+        $schedule_current_date = $this->getRequestParam("schedule_current_date");
+
+        $scheduleModel = new \App\Models\ScheduleModel();
+        $s = $scheduleModel->getSchedule($schedule_uid);
+        $s->schedule_status = "canceled";
+
+        $scheduleModel->save($s);
+        
+        return redirect()->to("/admin/schedule/date/$schedule_current_date");
+    }
+
+
+
+    public function getList($date)
+    {
+
+
+        $get = $this->getRequest()->getGet();
+        $post = $this->getRequest()->getPost();
+        $body = $this->getRequest()->getBody();
+        $json = $this->getRequest()->getJSON();
+
+        $d = new DateTime($date);
+
+        $model = new \App\Models\ScheduleModel();
+
+        $records = $model->getScheduleCompleteByDate($d->format("Y-m-d"));
+
+        $countAll = 0;
+        $countFiltered = 0;
+        $result = [];
+        if ($records) {
+            $countAll = count($records);
+            $countFiltered = count($records);
+
+            foreach ($records as $key => $value) {
+                $result[] =  [
+                    "schedule_uid" => $value->schedule_uid,
+                    "schedule_date" => $value->schedule_date,
+                    "schedule_status" => $value->schedule_status,
+                    "object_uid" => $value->object_uid,
+                    "schedule_object_name" => $value->schedule_object_name,
+                    "schedule_service_name" => $value->schedule_service_name,
+                    "customer_uid" => $value->customer_uid,
+                    "customer_name" => $value->customer_name,
+                    "customer_email" => $value->customer_email,
+                    "schedule_contact_name" => $value->schedule_contact_name,
+                    "schedule_contact_phone" => $value->schedule_contact_phone,
+                    "schedule_address" => str_replace("\n", " ", $value->schedule_address),
+                    "schedule_city" => $value->schedule_city,
+                    "worker_uid" => $value->worker_uid,
+                    "worker_name" => $value->worker_name,
+                    "worker_avatar" => $value->worker_avatar,
+                ];
+                unset($value->id);
+                unset($value->deleted_at);
+            }
+        }
+        $data = [
+            "status_code" => 200,
+            "status" => "Success",
+            "status_messages" => [count($result) . " schedules found"],
+            "draw" => $get["draw"] ?? null,
+            "recordsTotal" => $countAll,
+            "recordsFiltered" => $countFiltered,
+            "iTotalRecords" => $countAll,
+            "iTotalDisplayRecords" => $countFiltered,
+            "data" => $result,
+        ];
+
+        //return $this->response->setJSON($data);
+        return $this->getJsonWithCSRF($data);
     }
 }

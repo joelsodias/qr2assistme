@@ -1,6 +1,7 @@
 <?= $this->extend(($layout ?? $_SERVER["app.layout.folder"] . "/" . $_SERVER["app.layout.template"])) ?>
 
 <?= $this->section('custom_css') ?>
+<link rel="stylesheet" href="/scanner/scanner.css">
 <style>
     .schedule-image {
         width: 95%;
@@ -23,8 +24,114 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('custom_scripts') ?>
+<script type="module">
+    import B64 from "/js/b64.js";
 
-<script>
+    import QrScanner from "/scanner/qr-scanner/qr-scanner.min.js";
+    QrScanner.WORKER_PATH = '/scanner/qr-scanner/qr-scanner-worker.min.js';
+
+    const videoElement = document.getElementById('qr-video');
+    const scanRegionContainer = document.getElementById('scan-region-container');
+    const startButton = document.getElementById('start-button');
+    const stopButton = document.getElementById('stop-button');
+    const helpMessage = document.getElementById('help-message');
+
+
+    const displayResultPanel = document.getElementById('display-result');
+    const displayAttendeeId = document.getElementById('display-custid');
+    const displayObjectId = document.getElementById('display-objid');
+    const displayDescription = document.getElementById('display-desc');
+
+
+    function startScan() {
+        //scanner.start();
+
+        scanner.start().then(() => {
+            scanRegionContainer.appendChild(scannerCanvas);
+            startButton.style.display = "none";
+        });
+
+        scannerCanvas.style.display = "block";
+        startButton.style.display = "none";
+        stopButton.style.display = "block";
+        helpMessage.style.display = "none";
+
+        // scannerCanvas.addEventListener('click', () => {
+        //     stopScan();
+        // });
+    }
+
+    function stopScan() {
+        scanner.stop();
+        scannerCanvas.style.display = "hidden";
+        stopButton.style.display = "none";
+        startButton.style.display = "block";
+        helpMessage.style.display = "flex";
+
+
+        var ctx = scannerCanvas.getContext("2d");
+        ctx.fillStyle = "silver";
+        ctx.fillRect(0, 0, scannerCanvas.width, scannerCanvas.height);
+
+        helpMessage.addEventListener('click', () => {
+            startScan();
+        });
+
+    }
+
+    var scanResult = async function(result) {
+        stopScan();
+
+
+        var step1 = result.split("/qrcode/")
+        console.log(step1);
+        var step2 = atob(step1[1])
+        console.log(step2);
+        var step3 = step2.split("|")
+        console.log(step3);
+        var step4 = atob(step3[0])
+        console.log(step4);
+        var step5 = step4.split("|")
+        console.log(step5);
+        console.log(step5[2]);
+
+        $("#object_uid-field").val(step5[2]);
+
+        $('#qr-code-modal').modal('hide')
+
+
+
+
+    }
+
+    const scanner = new QrScanner(videoElement, result => scanResult(result), error => {
+        //camQrResult.textContent = error;
+        //camQrResult.style.color = 'inherit';
+    });
+
+    const scannerCanvas = scanner.$canvas;
+    scannerCanvas.id = "scannerCanvas";
+
+
+
+    startButton.addEventListener('click', () => {
+        startScan();
+    });
+
+    stopButton.addEventListener('click', () => {
+        stopScan();
+    });
+
+    scannerCanvas.addEventListener('click', () => {
+        startScan();
+    });
+
+    // for debugging
+    window.scanner = scanner;
+
+
+
+
     var imageCount = 0;
 
     function showImage(e) {
@@ -89,6 +196,12 @@
 
         $(".schedule-image").on("click", showImage);
 
+        $("#scan-code").on("click", function (e) {
+            $('#qr-code-modal').modal('show')
+            startScan()
+
+        })
+
     });
 </script>
 <?= $this->endSection() ?>
@@ -121,8 +234,8 @@
         </div>
     </div>
 </div>
-<?= $this->openCard("Lista de agendamentos criados para você") ?>
-<div class="container mt-5">
+<?= $this->openCard("Dados do Agendamento:") ?>
+<div class="container mt-2">
     <form method="post" enctype="multipart/form-data" id="formSaveSchedule" name="formSaveSchedule" action="/field/schedule/save">
         <?= csrf_field() ?>
         <input type="hidden" name="schedule_uid" value="<?= $schedule->schedule_uid ?>">
@@ -155,14 +268,14 @@
             <div class="input-group mb-3">
                 <?php if (!isset($schedule->object_uid)) : ?>
                     <div class="input-group-prepend">
-                        <button id="scan-code" class="btn btn-outline-primary" type="button">
+                        <button id="scan-code" class="btn btn-outline-primary" type="button" d-ata-toggle="modal" d-ata-target="#qr-code-modal">
                             <span class="d-none d-lg-inline-block">Inserir</span>
                             <i class="fas fa-qrcode ml-lg-2"></i>
                         </button>
                     </div>
-                    <input readonly name="object_uid" id="object_uid" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                    <input readonly name="object_uid" id="object_uid-field" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
                 <?php else : ?>
-                    <input readonly name="object_uid" id="object_uid" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                    <input readonly name="object_uid" id="object_uid-field" type="text" value="<?= $schedule->object_uid ?>" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
                     <div class="input-group-append">
                         <button id="scan-code" class="btn btn-outline-danger" type="button">
                             <span>Mudar</span>
@@ -196,9 +309,49 @@
             </div>
         </div>
         <div class="row justify-content-around">
-            <input type="submit" name="post_save_action" value="continue" class="btn btn-secondary col-4 m-1">Salvar</button>
-            <input type="submit" name="post_save_action" value="exit" class="btn btn-primary col-4 m-1">Salvar e Fechar</button>
+            <input type="submit" name="post_action" value="Salvar" class="btn btn-primary col-5 m-1">
+            <input type="submit" name="post_action" value="Concluir" class="btn btn-success col-5 m-1">
         </div>
     </form>
     <?= $this->closeCard() ?>
+
+    
+    <?= $this->openModal("qr-code", "Ler QR Code") ?>
+        <div class="d-flex justify-content-center flex-column">
+            <video style="display:none" id="qr-video"></video>
+
+
+            <div class="d-flex justify-content-center align-content-center">
+                <div id="scan-region-container" class="position-relative">
+
+                    <div id="help-message" class="bg-info justify-content-center align-items-center flex-column">
+
+                        <i class="bi bi-play-circle"></i>
+                        <span>Reiniciar leitura </span>
+                        <span>do QR Code</span>
+
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="d-flex justify-content-around">
+                <button type="button" class="btn btn-info" id="start-button">
+                    <i class="bi bi-play-circle"></i> Reiniciar
+                </button>
+                <button type="button" class="btn btn-danger" id="stop-button">
+                    <i class="bi bi-stop-circle"></i> Cancelar
+                </button>
+            </div>
+        </div>
+        <?= $this->closeModal(
+        "qr-code",
+        [
+        //     "close" =>  ["label" => "Fechar", "tag" => "button", "type" => "button", "class" => "btn-secondary", "data-dismiss" => "modal"],
+        //     "submit" => ["label" => "Confirmar", "class" => "btn-success", "type" => "submit", "data-dismiss" => ""]
+        ]
+    );
+    ?>
+
+
     <?= $this->endSection() ?>

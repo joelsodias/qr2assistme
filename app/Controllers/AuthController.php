@@ -423,8 +423,8 @@ class AuthController extends BaseController
 
         if (isset($user)) {
             $workerModel = new \App\Models\WorkerModel();
-            $worker = $workerModel->getWorker($user->worker_uid);
-            $user->worker = $worker;
+            $worker = $workerModel->getWorker($user->worker_uid, null, 1);
+            $user->worker = $worker[0];
             $this->setSessionLoginInfo(true, "admin", "local", "connected");
             $this->setSessionLoginInfo(true, "admin", "connected");
             $this->setSessionLoginInfo($user, "admin", "local", "user");

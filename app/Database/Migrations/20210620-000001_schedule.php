@@ -56,7 +56,7 @@ class ScheduleTable extends BaseTableMigration
             ],
 
             'schedule_status'         => [
-                'type'              => 'ENUM("daft","requested","scheduled","rescheduled","canceled","closed")',
+                'type'              => 'ENUM("draft","requested","scheduled","rescheduled","canceled","closed")',
                 'null'              => false,
             ],
 

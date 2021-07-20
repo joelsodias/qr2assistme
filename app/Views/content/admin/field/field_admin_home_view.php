@@ -126,7 +126,7 @@
 
 
                 }
-            }).buttons().container().appendTo('#examples_wrapper .col-md-6:eq(0)');
+            }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
 
         // $("#dataTable").on("click", ".row-start-button", function(e) {
         //     e.preventDefault();

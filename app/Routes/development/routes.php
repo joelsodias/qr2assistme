@@ -30,6 +30,11 @@ $routes->group('admin', ['filter' => 'ssl+auth:admin'], function ($routes) {
     $routes->get('chat/(:segment)', 'ChatController::chatAttendant/$1');
 
     $routes->get('schedule', 'AdminController::notImplemented');
+    $routes->get('schedule/date/(:segment)', 'ScheduleController::showAdminScheduleDate/$1');
+    $routes->post('schedule/confirm', 'ScheduleController::confirmSchedule');
+    $routes->post('schedule/reschedule', 'ScheduleController::changeSchedule');
+    $routes->post('schedule/cancel', 'ScheduleController::cancelSchedule');
+
     $routes->get('dashboard', 'AdminController::notImplemented');
     $routes->get('worker/attendant', 'AdminController::notImplemented');
     $routes->get('worker/field', 'AdminController::notImplemented');
@@ -60,8 +65,9 @@ $routes->group('admin', ['filter' => 'ssl+auth:admin'], function ($routes) {
 });
 
 $routes->group('admin/api', function ($routes) {
-    $routes->get('insertobject/(:any)', 'QrObjectController::insertAttendeeObject/$1');
-    $routes->get('deleteobject/(:num)', 'QrObjectController::deleteAttendeeObject/$1');
+    // $routes->get('insertobject/(:any)', 'QrObjectController::insertAttendeeObject/$1');
+    // $routes->get('deleteobject/(:num)', 'QrObjectController::deleteAttendeeObject/$1');
+   $routes->get('schedule/date/(:segment)', 'ScheduleController::getList/$1');
 });
 
 $routes->group('/attendee', ['filter' => 'ssl'], function ($routes) {

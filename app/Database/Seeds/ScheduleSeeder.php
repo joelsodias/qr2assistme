@@ -29,7 +29,8 @@ class ScheduleSeeder extends BaseSeeder
 		];
 
 		$listStatuses = [
-			"daft", 
+			"draft", 
+            "requested",
 			"scheduled", 
 			"rescheduled", 
 			"canceled", 
@@ -73,7 +74,7 @@ class ScheduleSeeder extends BaseSeeder
 			$startDate   = new DateTime();
 			$startDate->modify('-1 week');
 			$endDate   = new DateTime();
-			$endDate->modify('+1 week');
+			$endDate->modify('+3 week');
 			$resultTime = $this->getRandomDate($startDate, $endDate);
 			$resultTime->setTime(mt_rand(8, 18), mt_rand(0, 1) * 30);
 			$e->schedule_date = $resultTime->format('Y-m-d H:i:s');

@@ -63,14 +63,14 @@ defaultParams.setRowButtonsClick = function () {
 }
 
 defaultParams.buttons = [{
-        text: '<i class="fas fa-sync fa-2x" title="Reload"></i>',
+        text: '<i class="fas fa-sync fa-2x" title="Recarregar"></i>',
         action: function (e, dt, node, config) {
             dt.ajax.reload();
         }
     },
     {
         extend: 'excel',
-        text: '<i class="fas fa-file-excel fa-2x" title="Export Page to Excel"></i>',
+        text: '<i class="fas fa-file-excel fa-2x" title="Exportar para Excel"></i>',
         exportOptions: {
             modifier: {
                 search: 'applied',
@@ -80,27 +80,27 @@ defaultParams.buttons = [{
     },
     {
         extend: 'csv',
-        text: '<i class="fas fa-file-alt fa-2x" title="Export  Page to CSV"></i>',
+        text: '<i class="fas fa-file-alt fa-2x" title="Exportar para CSV"></i>',
 
     },
     {
         extend: 'pdf',
-        text: '<i class="fas fa-file-pdf fa-2x" title="Export  Page to PDF"></i>',
+        text: '<i class="fas fa-file-pdf fa-2x" title="Exportar para PDF"></i>',
 
     },
     {
         extend: 'copy',
-        text: '<i class="fas fa-copy fa-2x" title="Copy Page Data"></i>',
+        text: '<i class="fas fa-copy fa-2x" title="Copiar Dados"></i>',
 
     },
     {
         extend: 'print',
-        text: '<i class="fas fa-print fa-2x" title="Print Page"></i>',
+        text: '<i class="fas fa-print fa-2x" title="Imprimir Página"></i>',
 
     },
     {
         extend: 'colvis',
-        text: '<i class="fas fa-columns fa-2x" title="Select Columns"></i>',
+        text: '<i class="fas fa-columns fa-2x" title="Selecionar Colunas"></i>',
 
     }
 ]

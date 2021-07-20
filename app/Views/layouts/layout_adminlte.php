@@ -13,6 +13,7 @@
   <!-- IonIcons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
+  <link rel="stylesheet" href="/adminlte/plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="/adminlte/dist/css/adminlte.css">
   <?php if ($enable_datatables ?? false) :  ?>
     <!-- DataTables  & Plugins -->
@@ -21,22 +22,7 @@
     <link rel="stylesheet" href="/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.css">
     <link rel="stylesheet" href="/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.css">
   <?php endif; ?>
-
-
-
-  <style>
-    .dark-mode a {
-      color: #fff;
-    }
-
-    .control-sidebar .sidebar-mini.sidebar-collapse .brand-text,
-    .control-sidebar .sidebar-mini.sidebar-collapse .nav-sidebar .nav-link p,
-    .control-sidebar .sidebar-mini.sidebar-collapse .sidebar .user-panel>.info,
-    .control-sidebar .nav-sidebar .nav-link>p {
-      visibility: visible;
-
-    }
-  </style>
+  <link rel="stylesheet" href="/css/common.css">
   <?= $this->renderSection("custom_css") ?>
 </head>
 <!--

@@ -12,9 +12,9 @@ class QrObjectModel extends BaseModel
     public function getObject(string $object_uid = null)
     {
         $builder = $this->builder();
-
+        $builder->join("customer", "qrobject.object_owner_uid = customer.customer_uid", "left outer");
         $builder->where("object_uid", $object_uid);
-        
+
         $r = $builder->get(1)->getResult();
 
         if (isset($r) && count($r)) {

@@ -81,8 +81,6 @@ class ScheduleTable extends BaseTableMigration
                 'null'              => true,
             ],
 
-
-            
             'schedule_object_name' => [
                 'type' => 'VARCHAR',
                 'constraint'        => 50,

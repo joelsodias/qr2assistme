@@ -19,6 +19,8 @@ class QrObjectModel extends BaseModel
 
         if (isset($r) && count($r)) {
             return $r[0];
-        } else return null;
+        } else {
+            return null;
+        }
     }
 }

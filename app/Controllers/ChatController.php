@@ -624,7 +624,7 @@ class ChatController extends BaseAdminLteController
             $sender = $userModel->getChatUser($json->sender_uid);
 
             if ($session && $sender) {
-                if (in_array($json->sender_uid, [$session->attendee_uid, $session->attendant_uid])) {
+                //if (in_array($json->sender_uid, [$session->attendee_uid, $session->attendant_uid])) {
                     $message_uid = $this->getNewUUidString();
 
                     $messageModel = new \App\Models\ChatMessageModel();
@@ -646,9 +646,9 @@ class ChatController extends BaseAdminLteController
                         "client_message_id" => $json->client_message_id,
                         "sync_status" => $e->sync_status,
                     ];
-                } else {
-                    $errors[] = "Error: Sender does not participate of this session";
-                }
+                //} else {
+                //    $errors[] = "Error: Sender does not participate of this session";
+                //}
             } else {
                 $errors[] = "Error: Invalid session or sender Id";
             }

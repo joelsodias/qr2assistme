@@ -89,7 +89,7 @@ function createClientId() {
     // Math.random should be unique because of its seeding algorithm.
     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
     // after the decimal.
-    return '' + Math.random().toString(36).substr(2, 9);
+    return '' + Math.random().toString(36).substr(2, 15);
 };
 
 function animateScroll(container, element, speed = 0) {
@@ -99,6 +99,10 @@ function animateScroll(container, element, speed = 0) {
 }
 
 function createMessage(container, text = "", status = MSG_STATUS.NONE, clientId = "", serverId = "", avatar = "") {
+    
+    if (serverId != null && $("div[serverid="+serverId+"]").length) {
+        return false
+    }
 
     var html =
         "<div class='chat-message " + status.direction + "' id='chat-message-" + clientId + "' clientid='" + clientId + "' serverid='" + serverId + "'>" +
@@ -231,6 +235,7 @@ function sendMessage(container, text, avatar) {
         }
     }
     addSyncRequest(data);
+    console.log("send",data)
 }
 
 function clearChatWindow() {
@@ -248,21 +253,16 @@ function forceInit() {
 function forcePing() {
     if (last_sync_timestamp) {
         var now = new Date()
-        var date = new Date(last_sync_timestamp * 1000);
-        //last_sync_timestamp = now 
-        // console.log("check ping")
-        // console.log(last_sync_timestamp)
-        // console.log(now);
-        // console.log(date);
-        // console.log(now - date);
 
+         //console.log("last",last_sync_timestamp)
+         //console.log("now",now);
 
-        if (now - date > 10000) {
+        if (now - last_sync_timestamp > 10000) {
             //console.log("ping")
             addSyncRequest({
                 "action": "ping",
                 "data": {
-                    "timestamp": date,
+                    "timestamp": last_server_timestamp,
                     "current_suid": current_SUID,
                     "current_uuid": current_UUID,
                 }
@@ -270,7 +270,7 @@ function forcePing() {
 
             //console.log(last_sync_timestamp)
         }
-        $("title").text("(" + (now - date) + ")")
+        $("title").text("(" + (now - last_sync_timestamp) + ")")
 
     }
 }
@@ -283,4 +283,5 @@ function addSyncRequest(request) {
 
 var sync_requests = [];
 var last_sync_timestamp = null;
+var last_server_timestamp = null;
 var sync_semaphore = false;

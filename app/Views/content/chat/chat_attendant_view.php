@@ -76,7 +76,7 @@
         </div>
         <div id="chat-right-bottom" class="bg-light border-top">
             <div id="chat-footer" class="d-flex justify-content-end align-items-center p-2">
-                <textarea id="input-message" rows="3" class="small rounded border-black w-100"></textarea>
+                <textarea id="input-message" rows="3" class="p-2 rounded border-black w-100"></textarea>
                 <div class="text-center m-3">
                     <a id="submit-message" href="#" class="bg-primary rounded-circle text-center p-3">
                         <i class="fas fa-play-circle fa-lg text-white"></i>

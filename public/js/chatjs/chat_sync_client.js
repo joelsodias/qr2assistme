@@ -43,10 +43,10 @@ function sync() {
 
     if (sync_requests.length) {
         var now = new Date()
-        last_sync_timestamp = now / 1000;
+        last_sync_timestamp = now ;
 
         var data = {
-            "last_sync_timestamp": last_sync_timestamp,
+            "last_sync_timestamp": last_server_timestamp,
             "current_uuid": current_UUID,
             "current_suid": current_SUID,
             "data": sync_requests
@@ -66,7 +66,8 @@ function sync() {
                 success: function (response, status) {
                     console.log("recebido:",response);
                     if (response) {
-                        last_sync_timestamp = response.timestamp
+                        last_sync_timestamp = new Date()
+                        last_server_timestamp = response.timestamp
                         if (response.data.length > 0) {
                             response.data.forEach((item, index, array) => {
                                 if ("stored" in item) {

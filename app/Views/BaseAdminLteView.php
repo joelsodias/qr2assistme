@@ -226,7 +226,7 @@ class BaseAdminLteView extends BaseView
                 $controller->addLinkMenuItem("opcao12", "Atendimentos", "/admin/chat/" .  ((isset($data->user) && isset($data->user->worker_uid)) ? $data->user->worker_uid : ""), "fas fa-comments"),
                 //$controller->addTextMenuItem("CADASTROS", "far fa-circle"),
                 $controller->addTreeViewMenuItem("opcao1", "BASES", "fas fa-database", false, [
-                    $controller->addLinkMenuItem("opcao11", "Agendamentos", "/admin/schedule", "far fa-calendar-check"),
+                   // $controller->addLinkMenuItem("opcao11", "Agendamentos", "/admin/schedule", "far fa-calendar-check"),
                     $controller->addLinkMenuItem("opcao12", "Clientes", "/admin/customer", "fas fa-user"),
                     $controller->addLinkMenuItem("opcao13", "Equipamentos de Clientes", "/admin/qrobject", "fas fa-qrcode"),
                     $controller->addLinkMenuItem("opcao14", "Colaboradores", "/admin/worker", "fas fa-user-cog"),

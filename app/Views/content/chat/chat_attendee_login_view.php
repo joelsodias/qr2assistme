@@ -56,12 +56,12 @@
             </div>
         </div>
 
-        <div class="row m-3">
+        <!--div class="row m-3">
             <div class="col-12 d-flex justify-content-center align-items-center">
 
                 <a href="/attendee/chat/guest" class="text-secondary">Desejo continuar sem identificação</a>
             </div>
-        </div>
+        </div-->
     </div>
 </section>
 <?= $this->endSection() ?>
